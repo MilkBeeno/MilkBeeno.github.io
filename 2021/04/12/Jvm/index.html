@@ -227,6 +227,32 @@ fun isTouchInViewInScreen(x: Float, y: Float, view: View?): Boolean &#123;
         return x &gt;= location[0] &amp;&amp; x &lt;= location[0] + view.width &amp;&amp; y &gt;= location[1] &amp;&amp; y &lt;= location[1] + view.height
     &#125;
 </code></pre>
+<pre><code>```java
+//set
+public void set(T value) &#123;
+    Thread t = Thread.currentThread();
+    ThreadLocal.ThreadLocalMap map = getMap(t);
+    if (map != null)
+        map.set(this, value);
+    else
+        createMap(t, value);
+&#125;
+//get
+public T get() &#123;
+    Thread t = Thread.currentThread();
+    ThreadLocal.ThreadLocalMap map = getMap(t);
+    if (map != null) &#123;
+        ThreadLocal.ThreadLocalMap.Entry e = map.getEntry(this);
+        if (e != null) &#123;
+            @SuppressWarnings(&quot;unchecked&quot;)
+            T result = (T)e.value;
+            return result;
+        &#125;
+    &#125;
+    return setInitialValue();
+&#125;
+```  
+</code></pre>
 </section>
     <!-- Tags START -->
     
