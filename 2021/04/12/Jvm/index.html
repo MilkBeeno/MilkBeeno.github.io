@@ -162,10 +162,71 @@
 <main class="app-body flex-box">
   <!-- Article START -->
   <article class="post-article">
-    <section class="markdown-content"><h2 id="大纲总览"><a href="#大纲总览" class="headerlink" title="大纲总览"></a>大纲总览</h2><h3 id="代码执行流程图"><a href="#代码执行流程图" class="headerlink" title="代码执行流程图"></a>代码执行流程图</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span>  <span class="title">Builder</span>(<span class="title">Retrofit</span> <span class="title">retrofit</span>)</span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> Retrofit <span class="title">build</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (baseUrl == <span class="keyword">null</span>) &#123;</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">&quot;Base URL required.&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//默认只支持Okhttp请求、不支持httpUrlConnection和httpClient</span></span><br><span class="line">    okhttp3.Call.Factory callFactory = <span class="keyword">this</span>.callFactory;</span><br><span class="line">    <span class="keyword">if</span> (callFactory == <span class="keyword">null</span>) &#123;</span><br><span class="line">      callFactory = <span class="keyword">new</span> OkHttpClient();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Executor callbackExecutor = <span class="keyword">this</span>.callbackExecutor;</span><br><span class="line">    <span class="keyword">if</span> (callbackExecutor == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="comment">//默认可以切换线程的线程池</span></span><br><span class="line">      callbackExecutor = platform.defaultCallbackExecutor();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Make a defensive copy of the adapters and add the default Call adapter.</span></span><br><span class="line">    List&lt;CallAdapter.Factory&gt; callAdapterFactories = <span class="keyword">new</span> ArrayList&lt;&gt;(<span class="keyword">this</span>.callAdapterFactories);</span><br><span class="line">    <span class="comment">//将OkhttpCall转为RetrofitCall</span></span><br><span class="line">    callAdapterFactories.addAll(platform.defaultCallAdapterFactories(callbackExecutor));</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Make a defensive copy of the converters.</span></span><br><span class="line">    List&lt;Converter.Factory&gt; converterFactories =</span><br><span class="line">            <span class="keyword">new</span> ArrayList&lt;&gt;(</span><br><span class="line">                    <span class="number">1</span> + <span class="keyword">this</span>.converterFactories.size() + platform.defaultConverterFactoriesSize());</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Add the built-in converter factory first. This prevents overriding its behavior but also</span></span><br><span class="line">    <span class="comment">// ensures correct behavior when using converters that consume all types.</span></span><br><span class="line">    converterFactories.add(<span class="keyword">new</span> BuiltInConverters());</span><br><span class="line">    converterFactories.addAll(<span class="keyword">this</span>.converterFactories);</span><br><span class="line">    converterFactories.addAll(platform.defaultConverterFactories());</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Retrofit(</span><br><span class="line">            callFactory,</span><br><span class="line">            baseUrl,</span><br><span class="line">            unmodifiableList(converterFactories),</span><br><span class="line">            unmodifiableList(callAdapterFactories),</span><br><span class="line">            callbackExecutor,</span><br><span class="line">            validateEagerly);</span><br><span class="line">  &#125;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+    <section class="markdown-content"><h2 id="大纲总览"><a href="#大纲总览" class="headerlink" title="大纲总览"></a>大纲总览</h2><h3 id="代码执行流程图"><a href="#代码执行流程图" class="headerlink" title="代码执行流程图"></a>代码执行流程图</h3><pre><code class="java">class  Builder(Retrofit retrofit)&#123;
+  public Retrofit build() &#123;
+    if (baseUrl == null) &#123;
+      throw new IllegalStateException(&quot;Base URL required.&quot;);
+    &#125;
+    //默认只支持Okhttp请求、不支持httpUrlConnection和httpClient
+    okhttp3.Call.Factory callFactory = this.callFactory;
+    if (callFactory == null) &#123;
+      callFactory = new OkHttpClient();
+    &#125;
 
+    Executor callbackExecutor = this.callbackExecutor;
+    if (callbackExecutor == null) &#123;
+        //默认可以切换线程的线程池
+      callbackExecutor = platform.defaultCallbackExecutor();
+    &#125;
+
+    // Make a defensive copy of the adapters and add the default Call adapter.
+    List&lt;CallAdapter.Factory&gt; callAdapterFactories = new ArrayList&lt;&gt;(this.callAdapterFactories);
+    //将OkhttpCall转为RetrofitCall
+    callAdapterFactories.addAll(platform.defaultCallAdapterFactories(callbackExecutor));
+
+    // Make a defensive copy of the converters.
+    List&lt;Converter.Factory&gt; converterFactories =
+            new ArrayList&lt;&gt;(
+                    1 + this.converterFactories.size() + platform.defaultConverterFactoriesSize());
+
+    // Add the built-in converter factory first. This prevents overriding its behavior but also
+    // ensures correct behavior when using converters that consume all types.
+    converterFactories.add(new BuiltInConverters());
+    converterFactories.addAll(this.converterFactories);
+    converterFactories.addAll(platform.defaultConverterFactories());
+
+    return new Retrofit(
+            callFactory,
+            baseUrl,
+            unmodifiableList(converterFactories),
+            unmodifiableList(callAdapterFactories),
+            callbackExecutor,
+            validateEagerly);
+  &#125;
+        &#125;
+</code></pre>
 <p><img src="jvm_code_execution_diagram.jpg"></p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">dispatchTouchEvent</span><span class="params">(ev: <span class="type">MotionEvent</span>)</span></span>: <span class="built_in">Boolean</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (ev.action == MotionEvent.ACTION_DOWN) &#123;</span><br><span class="line">            editTextView?.run &#123;</span><br><span class="line">                <span class="keyword">if</span> (!ViewUtil.isTouchInViewInScreen(ev.x, ev.y, <span class="keyword">this</span>)) &#123;</span><br><span class="line">                    <span class="keyword">this</span>.clearFocus()</span><br><span class="line">                    <span class="comment">//隐藏键盘</span></span><br><span class="line">                    KeyBoardUtil.hideKeyboard(CommonService.getInstance().appService.mainActivity, <span class="keyword">this</span>)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.dispatchTouchEvent(ev)</span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment">//判断条件</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">isTouchInViewInScreen</span><span class="params">(x: <span class="type">Float</span>, y: <span class="type">Float</span>, view: <span class="type">View</span>?)</span></span>: <span class="built_in">Boolean</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (view == <span class="literal">null</span>) <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">        <span class="keyword">val</span> location = IntArray(<span class="number">2</span>)</span><br><span class="line">        <span class="comment">// 获取控件在屏幕的位置</span></span><br><span class="line">        view.getLocationInWindow(location)</span><br><span class="line">        <span class="keyword">return</span> x &gt;= location[<span class="number">0</span>] &amp;&amp; x &lt;= location[<span class="number">0</span>] + view.width &amp;&amp; y &gt;= location[<span class="number">1</span>] &amp;&amp; y &lt;= location[<span class="number">1</span>] + view.height</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="kotlin">override fun dispatchTouchEvent(ev: MotionEvent): Boolean &#123;
+        if (ev.action == MotionEvent.ACTION_DOWN) &#123;
+            editTextView?.run &#123;
+                if (!ViewUtil.isTouchInViewInScreen(ev.x, ev.y, this)) &#123;
+                    this.clearFocus()
+                    //隐藏键盘
+                    KeyBoardUtil.hideKeyboard(CommonService.getInstance().appService.mainActivity, this)
+                &#125;
+            &#125;
+        &#125;
+        return super.dispatchTouchEvent(ev)
+    &#125;
+//判断条件
+fun isTouchInViewInScreen(x: Float, y: Float, view: View?): Boolean &#123;
+        if (view == null) return false
+        val location = IntArray(2)
+        // 获取控件在屏幕的位置
+        view.getLocationInWindow(location)
+        return x &gt;= location[0] &amp;&amp; x &lt;= location[0] + view.width &amp;&amp; y &gt;= location[1] &amp;&amp; y &lt;= location[1] + view.height
+    &#125;
+</code></pre>
 </section>
     <!-- Tags START -->
     
