@@ -162,7 +162,7 @@
 <main class="app-body flex-box">
   <!-- Article START -->
   <article class="post-article">
-    <section class="markdown-content"><h2 id="大纲总览"><a href="#大纲总览" class="headerlink" title="大纲总览"></a>大纲总览</h2><h3 id="代码执行流程图"><a href="#代码执行流程图" class="headerlink" title="代码执行流程图"></a>代码执行流程图</h3><pre><code class="java">class  Builder(Retrofit retrofit)&#123;
+    <section class="markdown-content"><h2 id="大纲总览"><a href="#大纲总览" class="headerlink" title="大纲总览"></a>大纲总览</h2><h3 id="代码执行流程图"><a href="#代码执行流程图" class="headerlink" title="代码执行流程图"></a>代码执行流程图</h3><pre><code class="kotlin">class  Builder(Retrofit retrofit)&#123;
   public Retrofit build() &#123;
     if (baseUrl == null) &#123;
       throw new IllegalStateException(&quot;Base URL required.&quot;);
@@ -206,27 +206,6 @@
         &#125;
 </code></pre>
 <p><img src="jvm_code_execution_diagram.jpg"></p>
-<pre><code class="kotlin">override fun dispatchTouchEvent(ev: MotionEvent): Boolean &#123;
-        if (ev.action == MotionEvent.ACTION_DOWN) &#123;
-            editTextView?.run &#123;
-                if (!ViewUtil.isTouchInViewInScreen(ev.x, ev.y, this)) &#123;
-                    this.clearFocus()
-                    //隐藏键盘
-                    KeyBoardUtil.hideKeyboard(CommonService.getInstance().appService.mainActivity, this)
-                &#125;
-            &#125;
-        &#125;
-        return super.dispatchTouchEvent(ev)
-    &#125;
-//判断条件
-fun isTouchInViewInScreen(x: Float, y: Float, view: View?): Boolean &#123;
-        if (view == null) return false
-        val location = IntArray(2)
-        // 获取控件在屏幕的位置
-        view.getLocationInWindow(location)
-        return x &gt;= location[0] &amp;&amp; x &lt;= location[0] + view.width &amp;&amp; y &gt;= location[1] &amp;&amp; y &lt;= location[1] + view.height
-    &#125;
-</code></pre>
 <pre><code class="java">    //set
     public void set(T value) &#123;
         Thread t = Thread.currentThread();
