@@ -206,27 +206,6 @@
         &#125;
 </code></pre>
 <p><img src="jvm_code_execution_diagram.jpg"></p>
-<pre><code class="kotlin">override fun dispatchTouchEvent(ev: MotionEvent): Boolean &#123;
-        if (ev.action == MotionEvent.ACTION_DOWN) &#123;
-            editTextView?.run &#123;
-                if (!ViewUtil.isTouchInViewInScreen(ev.x, ev.y, this)) &#123;
-                    this.clearFocus()
-                    //隐藏键盘
-                    KeyBoardUtil.hideKeyboard(CommonService.getInstance().appService.mainActivity, this)
-                &#125;
-            &#125;
-        &#125;
-        return super.dispatchTouchEvent(ev)
-    &#125;
-//判断条件
-fun isTouchInViewInScreen(x: Float, y: Float, view: View?): Boolean &#123;
-        if (view == null) return false
-        val location = IntArray(2)
-        // 获取控件在屏幕的位置
-        view.getLocationInWindow(location)
-        return x &gt;= location[0] &amp;&amp; x &lt;= location[0] + view.width &amp;&amp; y &gt;= location[1] &amp;&amp; y &lt;= location[1] + view.height
-    &#125;
-</code></pre>
 <pre><code class="java">    //set
     public void set(T value) &#123;
         Thread t = Thread.currentThread();
@@ -474,7 +453,7 @@ fun isTouchInViewInScreen(x: Float, y: Float, view: View?): Boolean &#123;
 
 
 <!-- Highlight.js -->
-<link rel="stylesheet" href="/path/to/styles/atom-one-dark.css">
+<link rel="stylesheet" href="/path/to/styles/github.css">
 <script src="/path/to/highlight.pack.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 
