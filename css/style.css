@@ -639,7 +639,7 @@ h2.article-head {
 }
 .markdown-content > table tbody tr:nth-child(even),
 .article-summary > table tbody tr:nth-child(even) {
-  background: #363636;
+  background: #e6eed6;
 }
 .markdown-content > table tbody tr:nth-child(odd),
 .article-summary > table tbody tr:nth-child(odd) {
