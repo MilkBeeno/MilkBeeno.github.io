@@ -79,7 +79,7 @@ pre {
   font-family: 'Roboto Mono', Monaco, courier, monospace;
   font-size: 0.8em;
   display: inline-block;
-  background-color: #f8f8f8;
+  background-color: #363636;
   color: #e96900;
   padding: 3px 5px;
   margin: 0 2px 5px 0;
@@ -529,7 +529,7 @@ h2.article-head {
 }
 .markdown-content p code,
 .article-summary p code {
-  background-color: #f8f8f8;
+  background-color: #363636;
   color: #e96900;
   padding: 3px 5px;
   margin: 0 2px;
@@ -574,7 +574,7 @@ h2.article-head {
   margin: 1em 0;
   padding: 0 20px;
   border-left: 4px solid #42b983;
-  background: #f8f8f8;
+  background: #363636;
   border-bottom-right-radius: 2px;
   border-top-right-radius: 2px;
 }
@@ -600,7 +600,7 @@ h2.article-head {
 }
 .markdown-content figure,
 .article-summary figure {
-  background: #f8f8f8;
+  background: #363636;
   padding: 0 10px;
   border-radius: 2px;
   margin: 20px 0;
@@ -793,7 +793,7 @@ h2.article-head {
 .author {
   margin-top: -50px;
   width: 100%;
-  background: #f8f8f8;
+  background: #363636;
   text-align: center;
   padding: 0 1em 30px 1em;
   box-sizing: border-box;
