@@ -168,7 +168,11 @@
       
       <div class="article-summary">
         
-          大纲总览代码执行流程图12345678910111213141516171819202122232425262728293031323334353637383940public Retrofit build() &#123;    if (baseUrl == null) &#123;    ...
+          大纲总览代码执行流程图public Retrofit build() &#123;
+    if (baseUrl == null) &#123;
+      throw new IllegalStateException("Base URL required.");
+    &#125;
+ ...
         
       </div>
       <a class="more" href="/2021/04/12/Jvm/">Read more</a>
