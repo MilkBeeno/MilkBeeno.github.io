@@ -171,7 +171,7 @@
 <li>元数据:对应于Java源码中声明与常量的信息。 包含类,继承的超类,实现的接口的声明信息,域与方法声明信息和常量池。</li>
 <li>方法信息:对应Java源码中语句和表达式对应的信息;包含字节码,异常处理器表,求值栈与局部变量区大小,求值栈的类型记录,调试符号信息。</li>
 </ul>
-<p>&emsp;以上的描述可能不是很清晰，我们可以用010editor编辑器来直观的了解class文件到底是怎样的。首先创建一个类、编译生成一个class文件，打开后我们可以看到如下图所示:<br><img src="http://i2.tiimg.com/736325/b42c93a5da97fee2.png"><br>&emsp; 对于每一个对象生成的class文件都有对应于一个如下图所示的ClassFile 结构体:<br><img src="http://i2.tiimg.com/736325/ceb97f9fb23d956a.png"><br><br>&emsp;也可以使用反编译查看class文件内容：javap -c 类名称，反编译后的格式、文字含义等等。</p>
+<p>&emsp;以上的描述可能不是很清晰，我们可以用010editor编辑器来直观的了解class文件到底是怎样的。首先创建一个类、编译生成一个class文件，打开后我们可以看到如下图所示<br><img src="http://i2.tiimg.com/736325/b42c93a5da97fee2.png"><br>&emsp; 对于每一个对象生成的class文件都有对应于一个如下图所示的ClassFile 结构体<br><img src="http://i2.tiimg.com/736325/ceb97f9fb23d956a.png"><br><br>&emsp;也可以使用反编译查看class文件内容：javap -c 类名称，反编译后的格式、文字含义等等。</p>
 <blockquote>
 <p>class反编译文件格式: <a target="_blank" rel="noopener" href="https://juejin.im/post/5c0932cee51d45090a1da07e">https://juejin.im/post/5c0932cee51d45090a1da07e</a></p>
 </blockquote>
@@ -201,7 +201,7 @@
 <li>App ClassLoader:负责记载classpath中指定的jar包及目录中class。</li>
 <li>Custom ClassLoader:属于应用程序根据自身需要自定义的ClassLoader;如Tomcat,jboss都会根据J2EE规范自行实现 ClassLoader。</li>
 </ul>
-<p>&emsp;加载过程中会先检查类是否被已加载,检查顺序是自底向上,从Custom ClassLoader到BootStrap ClassLoader 逐层检查,只要某个Classloader<br>已加载就视为已加载此类,保证此类只所有ClassLoader加载一次。而加载的顺序是自顶向下,也就是由上层来逐层尝试加载此类。</p>
+<p>&emsp;加载过程中会先检查类是否被已加载,检查顺序是自底向上,从Custom ClassLoader到BootStrap ClassLoader 逐层检查,只要某个Classloader已加载就视为已加载此类,保证此类只所有ClassLoader加载一次。而加载的顺序是自顶向下,也就是由上层来逐层尝试加载此类。</p>
 </li>
 </ul>
 <h3 id="JVM-运行时数据区内存分配"><a href="#JVM-运行时数据区内存分配" class="headerlink" title="JVM 运行时数据区内存分配"></a>JVM 运行时数据区内存分配</h3><p>  数据区内存图<br>  <img src="http://i2.tiimg.com/736325/4abc1acb5d0dc2be.png"><br>  如图所示，JVM运行时数据区内存主要分为：线程私有类中包含虚拟机栈、本地方法栈和程序计数器，线程共享类包含了方法区和堆。</p>
@@ -210,7 +210,7 @@
 </li>
 <li><p>虚拟机栈<br>&emsp;存储当前线程运行方法所需的数据,指令,返回地址。</p>
 <ul>
-<li>栈帧:(1)局部变量表:存储8大数据类型和引用数据类型。(2)操作数栈:存放方法执行、操作(3)动态连接:解决多态问题，确定是哪一个对象(4)完成出口:返回地址。<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs Java">  <span class="hljs-comment">/**</span><br><span class="hljs-comment"> *  以下对应work()方法的操作数栈的步骤：</span><br><span class="hljs-comment"> *  iconst_1  将int型 1 入操作数栈</span><br><span class="hljs-comment"> *  istore_1  将操作数栈中栈顶int型数值，存入局部变量表中(下标为1的位置)</span><br><span class="hljs-comment"> *  iconst_2  将int型 2 入操作数栈</span><br><span class="hljs-comment"> *  istore_2  将操作数栈中栈顶int型数值，存入局部变量表中(下标为2的位置)</span><br><span class="hljs-comment"> *  iload_1   将局部变量表中下标为1的int型数据入栈</span><br><span class="hljs-comment"> *  iload_2   将局部变量表中下标为2的int型数据入栈</span><br><span class="hljs-comment"> *  iadd      ①将栈顶两int型数值出栈 ②相加 ③并将结果压入操作数栈</span><br><span class="hljs-comment"> *  bipush 10 10的值扩展int值入操作数栈</span><br><span class="hljs-comment"> *  imul      ①将栈顶两int数值出栈 ②相加相乘 ③将结果压入操作数栈</span><br><span class="hljs-comment"> *  istore_3  将操作数栈栈顶int型数值，存入局部变量表(下标为3的位置)</span><br><span class="hljs-comment"> *  iload_3   将局部变量表中下标为3的int型数据入栈</span><br><span class="hljs-comment"> *  ireturn   返回数值</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Person</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">work</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">int</span> x = <span class="hljs-number">1</span>;<br>        <span class="hljs-keyword">int</span> y = <span class="hljs-number">2</span>;<br>        <span class="hljs-keyword">int</span> z = (x + y) * <span class="hljs-number">10</span>;<br>        <span class="hljs-keyword">return</span> z;<br>    &#125;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String args[])</span> </span>&#123;<br>        Person person = <span class="hljs-keyword">new</span> Person();<br>        person.work();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure></li>
+<li>栈帧:(1)局部变量表:存储8大数据类型和引用数据类型(2)操作数栈:存放方法执行、操作(3)动态连接:解决多态问题，确定是哪一个对象(4)完成出口:返回地址<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs Java">  <span class="hljs-comment">/**</span><br><span class="hljs-comment"> *  以下对应work()方法的操作数栈的步骤：</span><br><span class="hljs-comment"> *  iconst_1  将int型 1 入操作数栈</span><br><span class="hljs-comment"> *  istore_1  将操作数栈中栈顶int型数值，存入局部变量表中(下标为1的位置)</span><br><span class="hljs-comment"> *  iconst_2  将int型 2 入操作数栈</span><br><span class="hljs-comment"> *  istore_2  将操作数栈中栈顶int型数值，存入局部变量表中(下标为2的位置)</span><br><span class="hljs-comment"> *  iload_1   将局部变量表中下标为1的int型数据入栈</span><br><span class="hljs-comment"> *  iload_2   将局部变量表中下标为2的int型数据入栈</span><br><span class="hljs-comment"> *  iadd      ①将栈顶两int型数值出栈 ②相加 ③并将结果压入操作数栈</span><br><span class="hljs-comment"> *  bipush 10 10的值扩展int值入操作数栈</span><br><span class="hljs-comment"> *  imul      ①将栈顶两int数值出栈 ②相加相乘 ③将结果压入操作数栈</span><br><span class="hljs-comment"> *  istore_3  将操作数栈栈顶int型数值，存入局部变量表(下标为3的位置)</span><br><span class="hljs-comment"> *  iload_3   将局部变量表中下标为3的int型数据入栈</span><br><span class="hljs-comment"> *  ireturn   返回数值</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Person</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">work</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">int</span> x = <span class="hljs-number">1</span>;<br>        <span class="hljs-keyword">int</span> y = <span class="hljs-number">2</span>;<br>        <span class="hljs-keyword">int</span> z = (x + y) * <span class="hljs-number">10</span>;<br>        <span class="hljs-keyword">return</span> z;<br>    &#125;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String args[])</span> </span>&#123;<br>        Person person = <span class="hljs-keyword">new</span> Person();<br>        person.work();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure></li>
 <li>大小限制-Xss:栈的大小。</li>
 </ul>
 </li>
@@ -221,7 +221,7 @@
 <li>Oraclehotspot和JRocket(无永久代)。</li>
 </ul>
 </li>
-<li><p>Java堆<br>&emsp;存放对象实例和数组,对象和数组频繁回收。Java堆的大小参数设置:</p>
+<li><p>Java堆<br>&emsp;存放对象实例和数组,对象和数组频繁回收。<br>&emsp;Java堆的大小参数设置:</p>
 <ul>
 <li>-Xmx 堆区内存可被分配的最大上限。</li>
 <li>-Xms 堆区内存初始内存分配的大小。</li>
@@ -230,7 +230,7 @@
 <li><p>直接内存—堆外内存<br>&emsp;不是虚拟机运行时数据区的一部分,也不是java虚拟机规范中定义的内存区域;如果使用了NIO,这块区域会被频繁使用,在java堆内可以用directByteBuffer对象直接引用并操作;这块内存不受java堆大小限制,但受本机总内存的限制,可以通过MaxDirectMemorySize来设置(默认与堆内存最大值一样),所以也会出现OOM异常。</p>
 </li>
 </ul>
-<h2 id="从底层深入理解运行时数据区"><a href="#从底层深入理解运行时数据区" class="headerlink" title="从底层深入理解运行时数据区"></a>从底层深入理解运行时数据区</h2><p>&emsp;内存可视化工具之HSDB出现在JDK1.7,在JDK1.9能够显示且调用。</p>
+<h2 id="从底层深入理解运行时数据区"><a href="#从底层深入理解运行时数据区" class="headerlink" title="从底层深入理解运行时数据区"></a>从底层深入理解运行时数据区</h2><p>&emsp;内存可视化工具之HSDB出现在JDK1.7,在JDK1.9能够显示且调用</p>
 <table>
 <thead>
 <tr>
@@ -257,21 +257,19 @@
 <p>&emsp;5).找到堆中T1和T2对象地址<br><img src="http://i2.tiimg.com/736325/2ec171497888c9f7.png"> <img src="http://i2.tiimg.com/736325/e189bb7cdddacaca.png"></p>
 <p>&emsp;6).堆中对象存活区划分<br><img src="http://i2.tiimg.com/736325/342a294d65a81004.png"></p>
 <p>&emsp;比较以上三张图可知T1在Java堆中的Eden区,T2在堆中Tenure区。</p>
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><ul>
-<li>功能<ul>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>1).功能</p>
+<ul>
 <li>以栈帧的方式存储方法调用的过程,并存储方法调用过程中基本数据类型的变量(int、short、long、byte、float、double、boolean、char等)<br>以及对象的引用变量,其内存分配在栈上,变量出了作用域就会自动释放。</li>
 <li>堆内存用来存储Java中的对象。无论是成员变量,局部变量,还是类变量,它们指向的对象都存储在堆内存中。</li>
 </ul>
-</li>
-<li>线程独享还是共享<ul>
+<p>2).线程独享还是共享</p>
+<ul>
 <li>栈内存归属于单个线程,每个线程都会有一个栈内存,其存储的变量只能在其所属线程中可见,即栈内存可以理解成线程的私有内存。</li>
 <li>堆内存中的对象对所有线程可见,堆内存中的对象可以被所有线程访问。</li>
 </ul>
-</li>
-<li>空间大小<ul>
+<p>3).空间大小</p>
+<ul>
 <li>栈的内存要远远小于堆内存,栈的深度是有限制的,可能发生StackOverFlowError问题。</li>
-</ul>
-</li>
 </ul>
 <p>5.虚拟机中对象创建的过程<br> 由下图可知一个对象的创建需要经历五个步骤:检查类加载,分配内存,内存空间初始化,设置对象头和对象初始化。<br> 对象创建过程图:<br><br> <img src="http://i2.tiimg.com/736325/beaeca474790b68a.png"></p>
 <ul>
