@@ -162,19 +162,311 @@
 <main class="app-body flex-box">
   <!-- Article START -->
   <article class="post-article">
-    <section class="markdown-content"><h2 id="大纲总览"><a href="#大纲总览" class="headerlink" title="大纲总览"></a>大纲总览</h2><h3 id="代码执行流程图"><a href="#代码执行流程图" class="headerlink" title="代码执行流程图"></a>代码执行流程图</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> Retrofit <span class="hljs-title">build</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-keyword">if</span> (baseUrl == <span class="hljs-keyword">null</span>) &#123;<br>      <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalStateException(<span class="hljs-string">&quot;Base URL required.&quot;</span>);<br>    &#125;<br>    <span class="hljs-comment">//默认只支持Okhttp请求、不支持httpUrlConnection和httpClient</span><br>    okhttp3.Call.Factory callFactory = <span class="hljs-keyword">this</span>.callFactory;<br>    <span class="hljs-keyword">if</span> (callFactory == <span class="hljs-keyword">null</span>) &#123;<br>      callFactory = <span class="hljs-keyword">new</span> OkHttpClient();<br>    &#125;<br><br>    Executor callbackExecutor = <span class="hljs-keyword">this</span>.callbackExecutor;<br>    <span class="hljs-keyword">if</span> (callbackExecutor == <span class="hljs-keyword">null</span>) &#123;<br>        <span class="hljs-comment">//默认可以切换线程的线程池</span><br>      callbackExecutor = platform.defaultCallbackExecutor();<br>    &#125;<br><br>    <span class="hljs-comment">// Make a defensive copy of the adapters and add the default Call adapter.</span><br>    List&lt;CallAdapter.Factory&gt; callAdapterFactories = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;(<span class="hljs-keyword">this</span>.callAdapterFactories);<br>    <span class="hljs-comment">//将OkhttpCall转为RetrofitCall</span><br>    callAdapterFactories.addAll(platform.defaultCallAdapterFactories(callbackExecutor));<br><br>    <span class="hljs-comment">// Make a defensive copy of the converters.</span><br>    List&lt;Converter.Factory&gt; converterFactories =<br>            <span class="hljs-keyword">new</span> ArrayList&lt;&gt;(<br>                    <span class="hljs-number">1</span> + <span class="hljs-keyword">this</span>.converterFactories.size() + platform.defaultConverterFactoriesSize());<br><br>    <span class="hljs-comment">// Add the built-in converter factory first. This prevents overriding its behavior but also</span><br>    <span class="hljs-comment">// ensures correct behavior when using converters that consume all types.</span><br>    converterFactories.add(<span class="hljs-keyword">new</span> BuiltInConverters());<br>    converterFactories.addAll(<span class="hljs-keyword">this</span>.converterFactories);<br>    converterFactories.addAll(platform.defaultConverterFactories());<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Retrofit(<br>            callFactory,<br>            baseUrl,<br>            unmodifiableList(converterFactories),<br>            unmodifiableList(callAdapterFactories),<br>            callbackExecutor,<br>            validateEagerly);<br>&#125;<br></code></pre></td></tr></table></figure>
-
-
-
-<pre><code class="java">public void set(T value) &#123;
-        Thread t = Thread.currentThread();
-        ThreadLocal.ThreadLocalMap map = getMap(t);
-        if (map != null)
-            map.set(this, value);
-        else
-            createMap(t, value);
-&#125;
+    <section class="markdown-content"><h2 id="大纲总览"><a href="#大纲总览" class="headerlink" title="大纲总览"></a>大纲总览</h2><p>代码执行流程图:<br><br><img src="http://i2.tiimg.com/736325/e9cbf191badd5bd9.png"><br></p>
+<p>第一阶段java源文件(.java)由javac编译器生成java字节码文件,<br>然后有由JVM (从跨平台到跨语言)加载进内存中并翻译,最后由操作系统调用已编译的类函数。<br></p>
+<p>2.源代码编译过程<br></p>
+<p>源代码编译过程图:<br><br><img src="http://i2.tiimg.com/736325/169995cbc436e26a.png"><br></p>
+<p>一个对象编译后的class文件主要有以下三点组成:</p>
+<ul>
+<li>结构信息:包括class文件格式版本号及各部分的数量与大小的信息。</li>
+<li>元数据:对应于Java源码中声明与常量的信息。 包含类,继承的超类,实现的接口的声明信息,<br>域与方法声明信息和常量池。</li>
+<li>方法信息:对应Java源码中语句和表达式对应的信息;包含字节码,异常处理器表,<br>求值栈与局部变量区大小,求值栈的类型记录,调试符号信息。<br>java对象生成class字节码后类结构:<br>class类文件结构图:<br><br><img src="http://i2.tiimg.com/736325/ceb97f9fb23d956a.png"><br></li>
+</ul>
+<p>3.JVM内存分配<br><br>运行时内存分配图:<br><br><img src="http://i2.tiimg.com/736325/547fec83f7fc9cf6.png"><br></p>
+<p>JVM类加载机制和流程:</p>
+<ul>
+<li><p>加载:JVM将要完成以下三件事</p>
+<ul>
+<li>通过一个类的全限定名来获取定义此类的二进制字节流。</li>
+<li>将这个字节流所代表的静态存储结构转化为方法区的运行时数据结构。</li>
+<li>在内存中生成一个代表这个类的java.lang.Class对象,作为方法区这个类的各种数据的访问入口。</li>
+</ul>
+</li>
+<li><p>验证:为了确保Class文件的字节流中包含的信息符合当前虚拟机的要求,不会危害虚拟机的安全,<br>Java虚拟机对输入的字节流走验证过程。</p>
+<ul>
+<li>文件格式验证:验证字节流是否符合Class文件格式规范;如:是否以魔数0xCAFEBABE开头。</li>
+<li>元数据验证:对字节码描述的信息进行语义分析;如:这个类的父类是否继承了不允许被继承的类(被final修饰的类)。</li>
+<li>字节码验证:主要目的是通过数据流和控制流分析,确定程序语义是合法的,符合逻辑的。<br>如:保证跳转指令不会跳转到方法体以外的字节码指令上。</li>
+<li>符号引用验证:发生在虚拟机将符号引用转化为直接引用的时候;如:校验符号引用中通过字符串描述的全限定名是否能找到对应的类。</li>
+</ul>
+</li>
+<li><p>类加载流程<br>类加载过程图:<br><br><img src="http://i2.tiimg.com/736325/4fafafe5796c2b99.png"></p>
+<ul>
+<li>Bootstrap ClassLoader:负责加载$JAVA_HOME中jre/lib/rt.jar里所有的 class,由C++实现,不是ClassLoader子类。</li>
+<li>Extension ClassLoader:负责加载Java平台中扩展功能的一些jar包、包括$JAVA_HOME中jre/lib/*.jar或-Djava.ext.dirs指定目录下的jar包。</li>
+<li>App ClassLoader:负责记载classpath中指定的jar包及目录中class。</li>
+<li>Custom ClassLoader:属于应用程序根据自身需要自定义的ClassLoader;如Tomcat,jboss都会根据J2EE规范自行实现 ClassLoader。</li>
+</ul>
+</li>
+<li><p>加载过程中会先检查类是否被已加载,检查顺序是自底向上,从Custom ClassLoader到BootStrap ClassLoader 逐层检查,只要某个Classloader<br>已加载就视为已加载此类,保证此类只所有ClassLoader加载一次。而加载的顺序是自顶向下,也就是由上层来逐层尝试加载此类。</p>
+</li>
+</ul>
+<p>JVM运行时数据区域内存分配<br>  数据区内存图:<br><br>  <img src="http://i2.tiimg.com/736325/4abc1acb5d0dc2be.png"></p>
+<p>JVM运行时数据区内存主要分为两大类和五大区域。线程私有类中包含:虚拟机栈,本地方法栈和程序计数器;线程共享类包含了方法区和堆。</p>
+<ul>
+<li><p>程序计数器:字节码解释器工作时通过改变这个计数器的值来选取下一条需要执行的字节码指令,分支,循环,跳转,异常处理,<br>线程恢复等功能都需要依赖这个计数器来完。通过反汇编可以得到一个class对象的信息,Code标识方法内部代码执行的行号也是偏移量,<br>而程序计数器就是记录Code的地址。程序计数器存在的作用:操作系统分配任务时使用时间片轮转法,当执行代码被挂起后,它可以记录代码执行的位置,<br>以便下次轮转分配到内存时,继续执行上次中断任务。程序计数器是JVM内存区域唯一不会OOM的区域。</p>
+</li>
+<li><p>虚拟机栈:存储当前线程运行方法所需的数据,指令,返回地址。</p>
+<ul>
+<li>栈帧:(1).局部变量表:存储8大数据类型和引用数据类型。(2)操作数栈:存放方法执行,操作。<br>(3)动态连接:解决多态问题,确定是哪一个对象。(4)完成出口:返回地址。</li>
+<li>大小限制-Xss:栈的大小。</li>
+</ul>
+</li>
+<li><p>本地方法栈:Native方法运行的空间,为Native方法服务。当一个JVM创建的线程调用native方法后,JVM不再为其在虚拟机栈中创建栈帧,<br>JVM只是简单地动态链接并直接调用native方法。虚拟机规范无强制规定,各版本虚拟机自由实现HotSpot直接把本地方法栈和虚拟机栈合二为一。</p>
+</li>
+<li><p>方法区:保存类信息,常量,静态变量和即时编译期编译后的代码。在JDK&gt;=1.8是属于元空间(好处:扩展方便;缺点是:挤压堆空间),JDK&lt;=1.7时叫永久代。</p>
+<ul>
+<li>Oraclehotspot和JRocket(无永久代)。</li>
+</ul>
+</li>
+<li><p>堆:存放对象实例和数组,对象和数组频繁回收。Java堆的大小参数设置:</p>
+<ul>
+<li>-Xmx 堆区内存可被分配的最大上限。</li>
+<li>-Xms 堆区内存初始内存分配的大小。</li>
+</ul>
+</li>
+<li><p>直接内存—堆外内存:不是虚拟机运行时数据区的一部分,也不是java虚拟机规范中定义的内存区域;如果使用了NIO,这块区域会被频繁使用,<br>在java堆内可以用directByteBuffer对象直接引用并操作;这块内存不受java堆大小限制,但受本机总内存的限制,可以通过MaxDirectMemorySize来设置<br>(默认与堆内存最大值一样),所以也会出现OOM异常。</p>
+</li>
+</ul>
+<p>4.从底层深入理解运行时数据区<br><br>内存可视化工具之HSDB出现在JDK1.7,在JDK1.9能够显示且调用。</p>
+<table>
+<thead>
+<tr>
+<th>JDK Version</th>
+<th>打开命令</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>JDK  8</td>
+<td>java -cp %JAVA_HOME%/lib/sa-jdi.jar sun.jvm.hotspot.HSDB 24428</td>
+</tr>
+<tr>
+<td>JDK&gt;=9</td>
+<td>jhsdb hsdb –pid 24428</td>
+</tr>
+</tbody></table>
+<ul>
+<li><p>创建一个类编译并运行:<br>JVMObject类:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">JVMObject</span> </span>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String MAN = <span class="hljs-string">&quot;Man&quot;</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String WOMAN = <span class="hljs-string">&quot;Woman&quot;</span>;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String args[])</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;<br>        Teacher t1 = <span class="hljs-keyword">new</span> Teacher();<br>        t1.setAge(<span class="hljs-number">20</span>);<br>        t1.setName(<span class="hljs-string">&quot;t2&quot;</span>);<br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">15</span>; i++) &#123;<br>            System.gc();<br>        &#125;<br>        Teacher t2 = <span class="hljs-keyword">new</span> Teacher();<br>        t2.setAge(<span class="hljs-number">18</span>);<br>        t2.setName(<span class="hljs-string">&quot;t1&quot;</span>);<br>        Thread.sleep(Integer.MAX_VALUE);<br>    &#125;<br>&#125;<br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Teacher</span> </span>&#123;<br>    String Name;<br>    <span class="hljs-keyword">int</span> Age;<br><span class="hljs-comment">//省略set和get方法</span><br>    &#125;<br></code></pre></td></tr></table></figure></li>
+<li><p>获取运行时内存过程,运行程序得到如下图示:<br>类运行内存分布图:<br><br><img src="http://i2.tiimg.com/736325/8f36fe45a8249cc0.png"></p>
+</li>
+</ul>
+<ul>
+<li>通过在命令行输入jps获取当前虚拟机所运行的进程。</li>
+<li>打开HSDB,并绑定当前进程的ID。<br>HSDB_1:<br><br><img src="http://i2.tiimg.com/736325/0b0b427ab1c766b0.png"></li>
+</ul>
+<ul>
+<li>然后选择当前线程并查看详细内容。<br>HSDB_2:<br><br><img src="http://i2.tiimg.com/736325/afb0665d43ec95f2.png"></li>
+</ul>
+<p>以上显示当前线程除了main栈帧外还有个sleep栈帧,并且是一个Native方法,说明<br>Hotspot将本地方法栈和虚拟机栈合二为一,也可以看出虚拟机栈映射的就是内存物理地址的引用。</p>
+<ul>
+<li><p>找到堆中T1和T2对象地址:<br>HSDB_3 &amp; HSDB_4:<br><br><img src="http://i2.tiimg.com/736325/2ec171497888c9f7.png"> <img src="http://i2.tiimg.com/736325/e189bb7cdddacaca.png"></p>
+</li>
+<li><p>堆中对象存活区划分:<br>HSDB_5:<br><br><img src="http://i2.tiimg.com/736325/342a294d65a81004.png"></p>
+</li>
+</ul>
+<p>比较以上三张图可知T1在Java堆中的Eden区,T2在堆中Tenure区。</p>
+<ul>
+<li>功能<ul>
+<li>以栈帧的方式存储方法调用的过程,并存储方法调用过程中基本数据类型的变量(int、short、long、byte、float、double、boolean、char等)<br>以及对象的引用变量,其内存分配在栈上,变量出了作用域就会自动释放。</li>
+<li>堆内存用来存储Java中的对象。无论是成员变量,局部变量,还是类变量,它们指向的对象都存储在堆内存中。</li>
+</ul>
+</li>
+<li>线程独享还是共享<ul>
+<li>栈内存归属于单个线程,每个线程都会有一个栈内存,其存储的变量只能在其所属线程中可见,即栈内存可以理解成线程的私有内存。</li>
+<li>堆内存中的对象对所有线程可见,堆内存中的对象可以被所有线程访问。</li>
+</ul>
+</li>
+<li>空间大小<ul>
+<li>栈的内存要远远小于堆内存,栈的深度是有限制的,可能发生StackOverFlowError问题。</li>
+</ul>
+</li>
+</ul>
+<p>5.虚拟机中对象创建的过程<br> 由下图可知一个对象的创建需要经历五个步骤:检查类加载,分配内存,内存空间初始化,设置对象头和对象初始化。<br> 对象创建过程图:<br><br> <img src="http://i2.tiimg.com/736325/beaeca474790b68a.png"></p>
+<ul>
+<li><p>类加载检查:在创建对象时,我们通常是使用如:Person person=new Person()。虚拟机遇到一条new指令时,首先将去检查这个指令的参数是否能在常量池<br>中定位到这个类的符号引用(在上节中JVM类加载机制中的第二步骤—验证的第四点),并且检查这个符号引用代表的类是否已被加载过,解析和初始化过。如果没有,<br>那必须先执行相应的类加载过程。</p>
+</li>
+<li><p>分配内存:在类加载检查通过后,接下来虚拟机将为新生对象分配内存。对象所需的内存大小在类加载完成后便可确定,为对象分配空间的任务等同于把一块确定大小<br>的内存从Java堆中划分出来。分配方式有 “指针碰撞” 和 “空闲列表” 两种,选择那种分配方式由 Java 堆空间规整决定,而Java堆是否规整又由所采用的垃圾收<br>集器是否带有压缩整理功能决定。Java 堆内存是否规整,取决于 GC 收集器的算法是”标记-清除”,还是”标记-整理”(也称作”标记-压缩”)。无论只指针碰撞或空闲<br>列表不可能只用一个线程去完成,所以分配内存时存在多线程并发问题,我们该怎么保证线程安全问题呢?</p>
+<ul>
+<li><p>CAS+失败重试:CAS(compare and swap)是乐观锁的一种实现方式。所谓乐观锁就是,每次不加锁而是假设没有冲突而去完成某项操作,<br>如果因为冲突失败就重试,直到成功为止。虚拟机采用 CAS 配上失败重试的方式保证更新操作的原子性。</p>
+</li>
+<li><p>TLAB:TLAB是把内存分配的动作按照线程划分在不同的空间之中进行,即每个线程在Java堆中预先分配一小块私有内存,也就是本地线程分配缓冲<br>(Thread Local Allocation Buffer,TLAB),JVM在线程初始化时,同时也会申请一块指定大小的内存,只给当前线程使用,这样每个线程都单独拥有一个<br>Buffer,如果需要分配内存,就在自己的Buffer上分配,这样就不存在竞争的情况,可以大大提升分配效率,当Buffer容量不够的时候,再重新从Eden区域申请<br>一块继续使用。TLAB的目的是在为新对象分配内存空间时,让每个Java应用线程能在使用自己专属的分配指针来分配空间,减少同步开销。TLAB只是让每个线程<br>有私有的分配指针,但底下存对象的内存空间还是给所有线程访问的,只是其它线程无法在这个区域分配而已。当一个TLAB用满(分配指针top撞上分配极限end了),<br>就新申请一个TLAB。</p>
+</li>
+</ul>
+</li>
+<li><p>内存空间初始化:内存分配完成后,虚拟机需要将分配到的内存空间都初始化为零值(不包括对象头),这一步操作保证了对象的实例字段在 Java 代码中可以不赋<br>初始值就直接使用,程序能访问到这些字段的数据类型所对应的零值。</p>
+</li>
+<li><p>设置对象头:初始化零值完成之后,虚拟机要对对象进行必要的设置,例如这个对象是那个类的实例,如何才能找到类的元数据信息,对象的哈希吗,<br>对象的GC分代年龄等信息。这些信息存放在对象头中,另外根据虚拟机当前运行状态的不同,如是否启用偏向锁等,对象头会有不同的设置方式。</p>
+</li>
+<li><p>执行构造方法:若以上步骤都已完成执行,则一个java的对象就创建成功,然后便执行构造方法,把对象按照程序员的意愿进行初始化。</p>
+</li>
+<li><p>对象的访问定位</p>
+<ul>
+<li><p>句柄:如果使用句柄访问的话,那么Java堆中将会划分出一块内存来作为句柄池,reference中存储的就是对象的句柄地址,<br>而句柄中包含了对象实例数据与类型数据各自的具体地址信息。</p>
+</li>
+<li><p>直接指针:如果使用直接指针访问,reference中存储的直接就是对象地址。</p>
+</li>
+<li><p>两者比较:这两种对象访问方式各有优势,使用句柄来访问的最大好处就是reference中存储的是稳定的句柄地址,在对象被移动<br>(垃圾收集时移动对象是非常普遍的行为)时只会改变句柄中的实例数据指针,而reference本身不需要修改。使用直接指针访问方式的最大好处就是速度更快,<br>它节省了一次指针定位的时间开销,由于对象的访问在Java中非常频繁,因此这类开销积少成多后也是一项非常可观的执行成本。</p>
+</li>
+</ul>
+</li>
+<li><p>判断对象是否存活</p>
+<ul>
+<li>引用计数法:在对象中添加一个引用计数器,每当有一个地方引用它,计数器就加1,当引用失效时,计数器减1。Python在用,但主流虚拟机没有使用,<br>因为存在对象相互引用的情况,这个时候需要引入额外的机制来处理,这样做影响效率。</li>
+</ul>
+<p>*可达性分析法(根分析):这个算法的基本思路就是通过一系列的称为“GC Roots”的对象作为起始点,从这些节点开始向下搜索,搜索所走过的路径称为引用链<br>(Reference Chain),当一个对象到GC Roots没有任何引用链相连时,则证明此对象是不可用的。作为GC Roots的对象包括下面几种:</p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>GC Root</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>虚拟机栈（栈帧中的本地变量表）中引用的对象</td>
+</tr>
+<tr>
+<td>方法区中类静态属性引用的对象</td>
+</tr>
+<tr>
+<td>方法区中常量引用的对象</td>
+</tr>
+<tr>
+<td>本地方法栈中JNI(即一般说的Native方法)引用的对象</td>
+</tr>
+<tr>
+<td>JVM的内部引用(class对象、异常对象NullPointException,OutofMemoryError,系统类加载器)</td>
+</tr>
+<tr>
+<td>所有被同步锁(synchronized关键)持有的对象</td>
+</tr>
+<tr>
+<td>JVM内部的JMXBean,JVMTI中注册的回调,本地代码缓存等</td>
+</tr>
+<tr>
+<td>VM实现中的“临时性”对象,跨代引用的对象(在使用分代模型回收只回收部分代时)</td>
+</tr>
+</tbody></table>
+<ul>
+<li><p>对象的引用</p>
+<ul>
+<li><p>强引用:一般的Object obj = new Object(),就属于强引用。在任何情况下,只有有强引用关联(与根可达)还在,垃圾回收器就永远不会回收掉被引用的对象。</p>
+</li>
+<li><p>软引用(SoftReference):一些有用但是并非必需，用软引用关联的对象,系统将要发生内存溢出(OuyOfMemory)之前,这些对象就会被回收<br>(如果这次回收后还是没有足够的空间,才会抛出内存溢出)。</p>
+</li>
+<li><p>弱引用(WeakReference):一些有用(程度比软引用更低)但是并非必需,用弱引用关联的对象,只能生存到下一次垃圾回收之前,GC发生时,不管内存够不够,<br>都会被回收。</p>
+</li>
+<li><p>虚引用(PhantomReference):幽灵引用,最弱（随时会被回收掉）。垃圾回收的时候收到一个通知,就是为了监控垃圾回收器是否正常工作。</p>
+</li>
+</ul>
+</li>
+<li><p>对象分配策略<br>分配策略图:<br><br><img src="http://i2.tiimg.com/736325/11667572dfaa99c2.png"></p>
+<ul>
+<li><p>分配原则:<br></p>
+<pre><code> ①对象优先在Eden区分配:大多数情况下,对象在新生代Eden区中分配。当Eden区没有足够空间分配时,虚拟机将发起一次Minor GC。&lt;br&gt;
+ ②空间分配担保:在发生Minor GC之前,虚拟机会先检查老年代最大可用的连续空间是否大于新生代所有对象总空间,如果这个条件成立,
+ 那么Minor GC可以确保是安全的。如果不成立,则虚拟机会查看HandlePromotionFailure设置值是否允许担保失败。如果允许,
+ 那么会继续检查老年代最大可用的连续空间是否大于历次晋升到老年代对象的平均大小,如果大于,将尝试着进行一次Minor GC,
+ 尽管这次Minor GC是有风险的,如果担保失败则会进行一次Full GC;如果小于,或者HandlePromotionFailure设置不允许冒险,
+ 那这时也要改为进行一次Full GC。&lt;br&gt;
+ ③大对象直接进入老年代:最典型的大对象是那种很长的字符串以及数组。这样做的目的:1.避免大量内存复制。 2.避免提前进行垃圾回收,明明内存有空间进行分配。&lt;br&gt;
+ ④长期存活的对象进入老年代: 如果对象在Eden出生并经过第一次Minor GC后仍然存活,并且能被Survivor容纳的话,
+ 将被移动到Survivor空间中,并将对象年龄设为1,对象在Survivor区中每熬过一次 Minor GC,年龄就增加1,
+ 当它的年龄增加到一定程度(并发的垃圾回收器默认为15),CMS是6时,就会被晋升到老年代中。&lt;br&gt;
+ ⑤动态对象年龄判定:为了能更好地适应不同程序的内存状况,虚拟机并不是永远地要求对象的年龄必须达到了MaxTenuringThreshold才能晋升老年代,
+ 如果在Survivor空间中相同年龄所有对象大小的总和大于Survivor空间的一半,年龄大于或等于该年龄的对象就可以直接进入老年代,
+ 无须等到MaxTenuringThreshold中要求的年龄。
 </code></pre>
+</li>
+<li><p>对象分配优化技术:几乎所有的对象都在堆中分配,可以通过逃逸技术在栈上分配。①逃逸分析:如果是逃逸分析出来的对象可以在栈上分配的话,<br>那么该对象的生命周期就跟随线程了,就不需要垃圾回收,如果是频繁的调用此方法则可以得到很大的性能提高。</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>6.JVM垃圾回收器</p>
+<ul>
+<li><p>分代回收理论:通过调查大部分的对象都是朝生夕死并且存活越久的对象越难回收,所以JVM分为新生代和老年代,而新生代有Eden、From和To区,<br>老年代只有Tenured区。不同区域有不同的垃圾回收算法:新生代—复制算法,老年代—标记清楚/标记整理算法。<br>分代垃圾回收图:<br><br><img src="http://i2.tiimg.com/736325/64c17172fc4a2671.png"></p>
+</li>
+<li><p>复制算法:它可以将内存分为大小相同的两块,每次使用其中的一块。当这一块的内存使用完后,就将还存活的对象复制到另一块去,然后再把使用的空间一次清理掉。<br>这样每次的内存回收都是对内存区间的一半进行回收。特点:①实现简单、运行高效。②内存复制、没有碎片。③利用率只有一半。Eden区的来源:①Appel式回收。<br>②提高空间利用率和空间分配担保。</p>
+</li>
+<li><p>标记清除:算法分为“标记”和“清除”两个阶段:首先标记出所有需要回收的对象,在标记完成后统一回收所有被标记的对象。它的主要不足空间问题,<br>标记清除之后会产生大量不连续的内存碎片,空间碎片太多可能会导致以后在程序运行过程中需要分配较大对象时,<br>无法找到足够的连续内存而不得不提前触发另一次垃圾收集动作。特点:①执行效率不稳定。②内存碎片导致提前GC。</p>
+</li>
+<li><p>标记整理:首先标记出所有需要回收的对象,在标记完成后,后续步骤不是直接对可回收对象进行清理,而是让所有存活的对象都向一端移动,<br>然后直接清理掉端边界以外的内存。特点:①对象移动。②引用更新。③用户线程暂停。④没有内存碎片。</p>
+</li>
+<li><p>垃圾收集器:在新生代中,每次垃圾收集时都发现有大批对象死去,只有少量存活,那就选用复制算法,只需要付出少量存活对象的复制成本就可以完成收集。<br>而老年代中因为对象存活率高,没有额外空间对它进行分配担保,就必须使用“标记—清理”或者“标记—整理”算法来进行回收。<br>垃圾收集器图:<br><br><img src="http://i2.tiimg.com/736325/eef8ac7996481b32.png"></p>
+</li>
+</ul>
+<h5 id="新生代"><a href="#新生代" class="headerlink" title="新生代"></a>新生代</h5><table>
+<thead>
+<tr>
+<th>收集器</th>
+<th>收集算法</th>
+<th>收集器类型</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Serial</td>
+<td>复制算法</td>
+<td>单线程收集器</td>
+</tr>
+<tr>
+<td>ParNew</td>
+<td>复制算法</td>
+<td>并发多线程收集器</td>
+</tr>
+<tr>
+<td>Parallel Scavenge</td>
+<td>复制算法</td>
+<td>并行多线程收集器</td>
+</tr>
+</tbody></table>
+<h5 id="老年代"><a href="#老年代" class="headerlink" title="老年代"></a>老年代</h5><table>
+<thead>
+<tr>
+<th>收集器</th>
+<th>收集算法</th>
+<th>收集器类型</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Serial Old</td>
+<td>标记整理</td>
+<td>单线程收集器</td>
+</tr>
+<tr>
+<td>Parallel Old</td>
+<td>标记整理</td>
+<td>并行多线程收集器</td>
+</tr>
+<tr>
+<td>CMS</td>
+<td>标记清除</td>
+<td>并发多线程收集器</td>
+</tr>
+<tr>
+<td>G1</td>
+<td>跨新生代和老年代标记整理+化整为零</td>
+<td>并行和并发收集器</td>
+</tr>
+</tbody></table>
+<p>参照以上图、表可知JVM垃圾收集器是一步一步演进,从单线程到多线程;从并行(垃圾收集的多线程的同时进行)到并发(垃圾收集的多线程和应用的多线程同时进行)。</p>
+<ul>
+<li>CMS垃圾回收器<ul>
+<li>CMS垃圾回收器主要有以下五点:<br><pre><code>   ①初始标记:标记根（GCRoots）相连对象。&lt;br&gt;
+   ②并发标记:标记需要回收的对象。&lt;br&gt;
+   ③重新标记:重新标记调整过的对象。&lt;br&gt;
+   ④并发清理:清理已标记的对象。&lt;br&gt;
+   ⑤重置线程:清除垃圾线程。&lt;br&gt;
+</code></pre>
+</li>
+<li>CMS缺点:cpu敏感、浮动垃圾和内存碎片。浮动垃圾:由于CMS并发清理阶段用户线程还在运行着,伴随程序运行自然就还会有新的垃圾不断产生,<br>这一部分垃圾出现在标记过程之后,CMS无法在当次收集中处理掉它们,只好留待下一次GC时再清理掉,这一部分垃圾就称为“浮动垃圾”。<br>CMS垃圾回收过程图:<br><br><img src="http://i2.tiimg.com/736325/28380d190c58de38.png"></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>G1垃圾收集器(Garbage First):<br><br>①追求停顿时间。<br><br>②Region区。<br><br>③筛选回收。<br><br>④可预测停顿。<br><br>⑤复制和标记整理。<br><br>G1垃圾回收过程图:<br><br><img src="http://i2.tiimg.com/736325/2c4fcfd7f4d37cb6.png"> <img src="http://i2.tiimg.com/736325/53c6af9586ec3446.png"></li>
+</ul>
 </section>
     <!-- Tags START -->
     
@@ -245,7 +537,7 @@
   <div class="toc-main">
     <strong class="toc-title">导航</strong>
     
-      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E5%A4%A7%E7%BA%B2%E6%80%BB%E8%A7%88"><span class="toc-nav-text">大纲总览</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B%E5%9B%BE"><span class="toc-nav-text">代码执行流程图</span></a></li></ol></li></ol>
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E5%A4%A7%E7%BA%B2%E6%80%BB%E8%A7%88"><span class="toc-nav-text">大纲总览</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#%E6%96%B0%E7%94%9F%E4%BB%A3"><span class="toc-nav-text">新生代</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#%E8%80%81%E5%B9%B4%E4%BB%A3"><span class="toc-nav-text">老年代</span></a></li></ol></li></ol></li></ol></li></ol>
     
   </div>
 </aside>
