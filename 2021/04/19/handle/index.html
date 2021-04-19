@@ -10,7 +10,7 @@
   
   <title>
     
-      MilkBeeno
+      Android消息机制 | MilkBeeno
     
   </title>
   <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -153,7 +153,7 @@
 </header>
 
     <div id="article-banner">
-  <h2></h2>
+  <h2>Android消息机制</h2>
   <p class="post-date">2021-04-19</p>
   <div class="arrow-down">
     <a href="javascript:;"></a>
@@ -162,10 +162,7 @@
 <main class="app-body flex-box">
   <!-- Article START -->
   <article class="post-article">
-    <section class="markdown-content"><hr>
-<p>title Android消息机制<br>date 2021-04-19 152046<br>tags FrameWork</p>
-<hr>
-<h1 id="Handler源码分析"><a href="#Handler源码分析" class="headerlink" title="Handler源码分析"></a>Handler源码分析</h1><p>&emsp;在Android中消息机制主要是handle消息机制，从系统开始运行时就已经决定了handle将会管理系统所有的消息事务，成为系统的维护者。</p>
+    <section class="markdown-content"><h1 id="Handler源码分析"><a href="#Handler源码分析" class="headerlink" title="Handler源码分析"></a>Handler源码分析</h1><p>&emsp;在Android中消息机制主要是handle消息机制，从系统开始运行时就已经决定了handle将会管理系统所有的消息事务，成为系统的维护者。</p>
 <h2 id="工作流程"><a href="#工作流程" class="headerlink" title="工作流程"></a>工作流程</h2><p><img src="http//i1.fuimg.com/736325/86bbb4385df00848.png"><br>&emsp;从上图可以看出handle消息机制主要由Handle、MessageQueue和Looper组成。当handle接收到一个新的消息时，会通过MessageQueue保存并发送出去，而后经过Looper循环再由handle进行处理。<br><img src="http//i1.fuimg.com/736325/5bef946f5f417089.png"><br>&emsp;Handler发送消息有两种方式—post(Runnable)和sendMessage(Message)，结合以上两张图和源码可以得到handle消息调度流程：Handler.sendMessage()-&gt; MessageQueue.enqueueMessage()-&gt; Looper.loop()-&gt; MessageQueue.next()-&gt; Handler.handleMessage()。在handle中我们既可以再主线程发送消息亦可以再子线程发送消息，最终再由handle主线程处理，通过handler消息流程图可知,只有Message不断被发送和接受,创建的Message始终被分配在固定的内存区域中,而内存是没有线程之分,共享内存的方式就可以实现线程间数据通信。</p>
 <h2 id="MessageQueue消息队列"><a href="#MessageQueue消息队列" class="headerlink" title="MessageQueue消息队列"></a>MessageQueue消息队列</h2><p>&emsp;MessageQueue是以单链表实现的优先级队列的数据结构保存消息– Message类结构中有一个next对象用来保存下一个Message;MessageQueue中有个mMessages对象用来保存当前队列头部的Message消息;在执行enqueueMessage()插入消息时,将消息插入到对应的位置(不一定是尾部)。</p>
 <h3 id="插入消息"><a href="#插入消息" class="headerlink" title="插入消息"></a>插入消息</h3><p>&emsp;Handler机制是一个生产者-消费者模式,MessageQueue是消息的仓库,handler不断的往里发送消息,loop不断轮循取出消息。从源码看出MessageQueue是没有阻塞机制,因此当没有足够的内存可分配时,会导致手机卡死。从handler发送消息流程图可以看出,消息始终会走sendMessageAtTime()函数,并传入参数uptimeMillis最终由MessageQueue进行处理，分析MessageQueue的enqueueMessage(msg, uptimeMillis)函数</p>
@@ -187,6 +184,15 @@
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>   1).IntentService 如何使用Handler分发、处理消息？<br>   2).Looper死循环为什么不会导致ANR？<br>   3).synchronized()锁机制、wait()、notify()方法比较？<br>   4).一个线程有几个handle，如何保证？</p>
 </section>
     <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#FrameWork" >
+    <span class="tag-code">FrameWork</span>
+  </a>
+
+      </div>
     
     <!-- Tags END -->
     <!-- NAV START -->
@@ -318,7 +324,7 @@
     var gitmentConfig = "MilkBeeno";
     if (gitmentConfig !== 'undefined') {
       var gitment = new Gitment({
-        id: "",
+        id: "Android消息机制",
         owner: "MilkBeeno",
         repo: "https://github.com/MilkBeeno",
         oauth: {
