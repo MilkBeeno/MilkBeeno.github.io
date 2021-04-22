@@ -217,11 +217,12 @@
 </tbody></table>
 <p>&emsp;网络数据的传输是以包的形式进行，其工作流程就是拼包和拆包。在数据传输过程中，包是全能性术语，除此还有帧用于表示数据链路层中包的单位、片是IP中数据的单位、段则表示TCP数据流中的信息、消息表示应用协议中数据的单位。首先在应用层获取应用协议传过来的数据、经过传输层附加TCP包首部、经过网络层附加IP包首部、再经过数据链路层附加以太网包首部、最后经过物理层传输到达目标点进行逆向解包，最终展示给用户。</p>
 <h2 id="TCP-IP协议族"><a href="#TCP-IP协议族" class="headerlink" title="TCP/IP协议族"></a>TCP/IP协议族</h2><p>&emsp;TCP/IP协议簇是Internet的基础，也是当今最流行的组网形式。TCP/IP是一组协议的代名词，包括许多别的协议，组成了TCP/IP协议簇。其中比较重要的有SLIP协议、PPP协议、IP协议、ICMP协议、ARP协议、TCP协议、UDP协议、FTP协议、DNS协议、SMTP协议等。</p>
-<h3 id="TCP"><a href="#TCP" class="headerlink" title="TCP"></a>TCP</h3><p>&emsp;面向连接可靠的协议流(HTTP)，有以下有点:面向连接、可靠性、RTT(往返连接 Round-Trip Time)和RTO(重传超时 Retransmission TimeOut)、一个数据包从一端发送到另一端收到回包后都会重新计算重传超时时间、数据排序、流量控制(滑动窗口、固定发送频率)、全双工。</p>
 <ul>
+<li>TCP<br>&emsp;面向连接可靠的协议流(HTTP)，有以下有点:面向连接、可靠性、RTT(往返连接 Round-Trip Time)和RTO(重传超时 Retransmission TimeOut)、一个数据包从一端发送到另一端收到回包后都会重新计算重传超时时间、数据排序、流量控制(滑动窗口、固定发送频率)、全双工。</li>
+<li>UDP<br>&emsp;面向无连接的通讯协议(在线视频)。</li>
+<li>UDT<br>&emsp;基于UDP、在应用层自己实现连接、重传的机制(HTTP3)</li>
 <li>TCP三次握手<br><img src="http://i1.fuimg.com/736325/63be7e99736fa3f3.png"><br>&emsp;(1).第一次握手:客户端向服务端发送一个SYN报文(TCP报文中含有SYN标识位的报文、SYN=1 seq= 24316(序列号))、客户端进入存储在TCP中为SYN_SENT状态。<br>&emsp;(2).第二次握手:服务收到客户端报文、得知客户端需要建立连接、服务端发出应答报文(SYN=1 ACK=1(标志位)、服务端进入SYN_RECEIVED状态ack=24317(为客户端seq+1、表示服务端收到客户端消息) seq=6478(序列号))。<br>&emsp;(3).第三次握手:客户端收到服务端报文、检查 ACK是否等于1 ack是否等于客户端seq+1、而后发送ACK报文(ACK=1 seq=6479)应答服务器、客户端进入连接、服务端收到报文也进入连接状态。</li>
 <li>TCP四次挥手<br><img src="http://i1.fuimg.com/736325/a3dcc48b05782959.png"><br>&emsp;(1).第一次挥手:客户端向服务端发送一个FIN报文(FIN=1 seq=28356(序列号))、客户端进入FIN_WAIT_1状态(客户端不再发送数据)。<br>&emsp;(2).第二次挥手:服务端收到客户端FIN报文、服务端发出应答报文ACK(ACK=1 seq=28357(序列号)),服务端进入CLOSE_WAIT状态(知道客户端不再发数据),客户端进入FIN_WAIT状态。<br>&emsp;(3).第三次挥手:服务端将所有数据发送给客户端后、发送一个FIN(FIN=1 seq=783469)报文通知客户端,服务端进入CLOSE状态。服务端的ACK报文和FIN报文可能合并进行发送(服务端将所有数据发送完毕后)。<br>&emsp;(4).第四次挥手:客户端收到服务端FIN报文后进入TIME_WAITING状态,并发出ACK(ACK=1 seq=783470)应答报文,服务端收到客户端应答后进入CLOSED状态。<br>&emsp;客户端在进入TIME_WAITING状态后在经过2*MSL(最长报文段寿命,存活最长时间 RFC:2分钟)时间后才会进入CLOSED状态(①传输丢包情况下、保证服务端迟来的报文有足够的时间被识别和解析。②确保可靠的终止TCP/IP连接)。</li>
-<li>UDP&amp;UDT<br>&emsp;(1).UDP面向无连接的通讯协议(在线视频)。<br>&emsp;(2).UDT基于UDP、在应用层自己实现连接、重传的机制(HTTP3)</li>
 </ul>
 <h2 id="Socket网络通信"><a href="#Socket网络通信" class="headerlink" title="Socket网络通信"></a>Socket网络通信</h2><p>&emsp;Socket是应用层语TCP/IP协议族通信的中间软件抽象层、它是一组接口，其实是一个门面模式。TCP用主机的IP地址加上主机上的端口号作为TCP连接的端点，这种端点就叫套接字(Socket)。</p>
 <h3 id="原生JDK网络编程-BIO"><a href="#原生JDK网络编程-BIO" class="headerlink" title="原生JDK网络编程-BIO"></a>原生JDK网络编程-BIO</h3><p><img src="http://i2.tiimg.com/736325/fa6619ed3dc7ac92.png"><br>&emsp;阻塞式网络通讯(socket没有读取到网络数据就阻塞当前线程)。服务端BIO实现:首先创建ServerSocket对象绑定当前端口、启动接口监听，然后接收客户端的连接并返回Socket对象，和客户端连接成功后创建一个新的线程进行阻塞式通信(bind()-&gt;accept()-&gt;开启一个Thread{ Socket-&gt; Write和Read }),accept是一个阻塞方法。客户端:获取服务端IP和端口号并用socket进行连接，然后进行数据的读写。</p>
@@ -234,8 +235,8 @@
       <div class="tags">
         <span>Tags:</span>
         
-  <a href="/tags#network" >
-    <span class="tag-code">network</span>
+  <a href="/tags#Network" >
+    <span class="tag-code">Network</span>
   </a>
 
       </div>
@@ -298,7 +299,7 @@
   <div class="toc-main">
     <strong class="toc-title">导航</strong>
     
-      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80"><span class="toc-nav-text">计算机网络基础</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84"><span class="toc-nav-text">计算机网络体系结构</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#TCP-IP%E5%8D%8F%E8%AE%AE%E6%97%8F"><span class="toc-nav-text">TCP&#x2F;IP协议族</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#TCP"><span class="toc-nav-text">TCP</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Socket%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1"><span class="toc-nav-text">Socket网络通信</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#%E5%8E%9F%E7%94%9FJDK%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B-BIO"><span class="toc-nav-text">原生JDK网络编程-BIO</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#%E5%8E%9F%E7%94%9FJDK%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B-NIO"><span class="toc-nav-text">原生JDK网络编程-NIO</span></a></li></ol></li></ol></li></ol>
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80"><span class="toc-nav-text">计算机网络基础</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84"><span class="toc-nav-text">计算机网络体系结构</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#TCP-IP%E5%8D%8F%E8%AE%AE%E6%97%8F"><span class="toc-nav-text">TCP&#x2F;IP协议族</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Socket%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1"><span class="toc-nav-text">Socket网络通信</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#%E5%8E%9F%E7%94%9FJDK%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B-BIO"><span class="toc-nav-text">原生JDK网络编程-BIO</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#%E5%8E%9F%E7%94%9FJDK%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B-NIO"><span class="toc-nav-text">原生JDK网络编程-NIO</span></a></li></ol></li></ol></li></ol>
     
   </div>
 </aside>
