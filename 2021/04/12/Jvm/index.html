@@ -162,16 +162,16 @@
 <main class="app-body flex-box">
   <!-- Article START -->
   <article class="post-article">
-    <section class="markdown-content"><h1 id="一、JAVA代码如何在操作系统中运行"><a href="#一、JAVA代码如何在操作系统中运行" class="headerlink" title="一、JAVA代码如何在操作系统中运行"></a>一、JAVA代码如何在操作系统中运行</h1><p>&emsp;&ensp;原生Android Application可以由Kotlin或Java去编写，然后由编译器打包成apk运行在Android平台上，其Kotlin实现是基于Java语言，作为Android开发者，我们不仅需要知道怎么去写Java代码，也需要了解代码是如何在操作系统中执行的。</p>
-<h2 id="代码执行流程图"><a href="#代码执行流程图" class="headerlink" title="代码执行流程图"></a>代码执行流程图</h2><p><img src="http://i2.tiimg.com/736325/e9cbf191badd5bd9.png"><br>&emsp;&ensp;可以看出java代码运行在操作平台上需经历三个阶段：第一阶段源代码时期 .java文件由javac编译器生成 .class字节码文件，然后由JVM(从跨平台到跨语言)，加载进内存中并翻译，最后由操作系统调用已编译的类函数。如上图可知第二、三阶段是发生在JVM（Java Virtual Machine）中，接下来需要分析第一阶段和JVM到底做了什么？</p>
+    <section class="markdown-content"><h1 id="一、JAVA代码如何在操作系统中运行"><a href="#一、JAVA代码如何在操作系统中运行" class="headerlink" title="一、JAVA代码如何在操作系统中运行"></a>一、JAVA代码如何在操作系统中运行</h1><p>&emsp;&emsp;原生Android Application可以由Kotlin或Java去编写，然后由编译器打包成apk运行在Android平台上，其Kotlin实现是基于Java语言，作为Android开发者，我们不仅需要知道怎么去写Java代码，也需要了解代码是如何在操作系统中执行的。</p>
+<h2 id="代码执行流程图"><a href="#代码执行流程图" class="headerlink" title="代码执行流程图"></a>代码执行流程图</h2><p><img src="http://i2.tiimg.com/736325/e9cbf191badd5bd9.png"><br>&emsp;&emsp;可以看出java代码运行在操作平台上需经历三个阶段：第一阶段源代码时期 .java文件由javac编译器生成 .class字节码文件，然后由JVM(从跨平台到跨语言)，加载进内存中并翻译，最后由操作系统调用已编译的类函数。如上图可知第二、三阶段是发生在JVM（Java Virtual Machine）中，接下来需要分析第一阶段和JVM到底做了什么？</p>
 <h2 id="Java-源代码编译阶段"><a href="#Java-源代码编译阶段" class="headerlink" title="Java 源代码编译阶段"></a>Java 源代码编译阶段</h2><p>源文件编译执行流程图如下所示<br><img src="http://i2.tiimg.com/736325/169995cbc436e26a.png"><br>&emsp;&emsp;此过程由javac编译器将.java文件变成.class文件，它将进行三步处理：分析和输入到符号表 、注解处理 和语义分析和生成 class 文件。由此一个对象的class文件就生成了，那么一个对象的class文件内容是怎么样的呢？</p>
 <h3 id="对象class文件结构"><a href="#对象class文件结构" class="headerlink" title="对象class文件结构"></a>对象class文件结构</h3><p>一个对象编译后的class文件主要有以下三点组成</p>
 <ul>
-<li>结构信息<br>&emsp;&emsp;包括class文件格式版本号及各部分的数量与大小的信息。</li>
-<li>元数据<br>&emsp;&emsp;对应于Java源码中声明与常量的信息。包含类,继承的超类,实现的接口的声明信息,域与方法声明信息和常量池。</li>
-<li>方法信息<br>&emsp;&emsp;对应Java源码中语句和表达式对应的信息。包含字节码,异常处理器表,求值栈与局部变量区大小,求值栈的类型记录,调试符号信息。</li>
+<li>结构信息<br>&emsp;包括class文件格式版本号及各部分的数量与大小的信息。</li>
+<li>元数据<br>&emsp;对应于Java源码中声明与常量的信息。包含类,继承的超类,实现的接口的声明信息,域与方法声明信息和常量池。</li>
+<li>方法信息<br>&emsp;对应Java源码中语句和表达式对应的信息。包含字节码,异常处理器表,求值栈与局部变量区大小,求值栈的类型记录,调试符号信息。</li>
 </ul>
-<p>&emsp;&emsp;以上的描述可能不是很清晰，我们可以用010editor编辑器来直观的了解class文件到底是怎样的。首先创建一个类、编译生成一个class文件，打开后我们可以看到如下图所示<br><img src="http://i2.tiimg.com/736325/b42c93a5da97fee2.png"><br>&emsp;&emsp;对于每一个对象生成的class文件都有对应于一个如下图所示的ClassFile 结构体<br><img src="http://i2.tiimg.com/736325/ceb97f9fb23d956a.png"><br><br>&emsp;&emsp;也可以使用反编译查看class文件内容：javap -c 类名称，反编译后的格式、文字含义等等。</p>
+<p>&emsp;以上的描述可能不是很清晰，我们可以用010editor编辑器来直观的了解class文件到底是怎样的。首先创建一个类、编译生成一个class文件，打开后我们可以看到如下图所示<br><img src="http://i2.tiimg.com/736325/b42c93a5da97fee2.png"><br>&emsp;&emsp;对于每一个对象生成的class文件都有对应于一个如下图所示的ClassFile 结构体<br><img src="http://i2.tiimg.com/736325/ceb97f9fb23d956a.png"><br>&emsp;&emsp;也可以使用反编译查看class文件内容：javap -c 类名称，反编译后的格式、文字含义等等。</p>
 <blockquote>
 <p>class反编译文件格式: <a target="_blank" rel="noopener" href="https://juejin.im/post/5c0932cee51d45090a1da07e">https://juejin.im/post/5c0932cee51d45090a1da07e</a></p>
 </blockquote>
@@ -179,14 +179,14 @@
 <h3 id="JVM-运行时内存分配图"><a href="#JVM-运行时内存分配图" class="headerlink" title="JVM 运行时内存分配图"></a>JVM 运行时内存分配图</h3><p><img src="http://i2.tiimg.com/736325/547fec83f7fc9cf6.png"><br>&emsp;&emsp;如上图所示，JVM首先由ClassLoader类加载器将.class文件加载进内存，然后在JVM运行时数据区进行翻译。</p>
 <h3 id="JVM-类加载机制"><a href="#JVM-类加载机制" class="headerlink" title="JVM 类加载机制"></a>JVM 类加载机制</h3><p>JVM将.class文件加载进内存大致会经历两个步骤</p>
 <ul>
-<li><p>加载<br>JVM将要完成以下三件事</p>
+<li><p>加载</p>
 <ul>
 <li>通过一个类的全限定名来获取定义此类的二进制字节流</li>
 <li>将这个字节流所代表的静态存储结构转化为方法区的运行时数据结构</li>
 <li>在内存中生成一个代表这个类的java.lang.Class对象,作为方法区这个类的各种数据的访问入口</li>
 </ul>
 </li>
-<li><p>验证<br>为了确保Class文件的字节流中包含的信息符合当前虚拟机的要求,不会危害虚拟机的安全,Java虚拟机对输入的字节流走验证过程。</p>
+<li><p>验证<br>&emsp;为了确保Class文件的字节流中包含的信息符合当前虚拟机的要求,不会危害虚拟机的安全,Java虚拟机对输入的字节流走验证过程。</p>
 <ul>
 <li>文件格式验证:验证字节流是否符合Class文件格式规范;如:是否以魔数0xCAFEBABE开头</li>
 <li>元数据验证:对字节码描述的信息进行语义分析;如:这个类的父类是否继承了不允许被继承的类(被final修饰的类)</li>
@@ -204,7 +204,7 @@
 <p>&emsp;&emsp;加载过程中会先检查类是否被已加载，检查顺序是自底向上，从Custom ClassLoader到BootStrap ClassLoader 逐层检查，只要某个Classloader已加载就视为已加载此类，保证此类只所有ClassLoader加载一次，而加载的顺序是自顶向下，也就是由上层来逐层尝试加载此类。</p>
 </li>
 </ul>
-<h3 id="JVM-运行时数据区内存分配"><a href="#JVM-运行时数据区内存分配" class="headerlink" title="JVM 运行时数据区内存分配"></a>JVM 运行时数据区内存分配</h3><p>  数据区内存图<br>  <img src="http://i2.tiimg.com/736325/4abc1acb5d0dc2be.png"><br>  &emsp;&emsp;如图所示，JVM运行时数据区内存主要分为：线程私有类中包含虚拟机栈、本地方法栈和程序计数器，线程共享类包含了方法区和堆。</p>
+<h3 id="JVM-运行时数据区内存分配"><a href="#JVM-运行时数据区内存分配" class="headerlink" title="JVM 运行时数据区内存分配"></a>JVM 运行时数据区内存分配</h3><p>数据区内存图<br><img src="http://i2.tiimg.com/736325/4abc1acb5d0dc2be.png"><br>&emsp;&emsp;如图所示，JVM运行时数据区内存主要分为：线程私有类中包含虚拟机栈、本地方法栈和程序计数器，线程共享类包含了方法区和堆。</p>
 <ul>
 <li><p>程序计数器<br>&emsp;&emsp;字节码解释器工作时通过改变这个计数器的值来选取下一条需要执行的字节码指令，分支、循环、跳转、异常处理、线程恢复等功能都需要依赖这个计数器来完。通过反汇编可以得到一个Class对象的信息，如下图所示 Code标识方法内部代码执行的行号也是偏移量，而程序计数器就是记录Code的地址。程序计数器存在的作用：操作系统分配任务时使用时间片轮转法，当执行代码被挂起后，它可以记录代码执行的位置，以便下次轮转分配到内存时，继续执行上次中断任务。程序计数器是JVM内存区域唯一不会OOM的区域。<br><img src="http://i1.fuimg.com/736325/854284581101c0dd.png"></p>
 </li>
@@ -216,13 +216,13 @@
 </li>
 <li><p>本地方法栈<br>&emsp;&emsp;Native方法运行的空间,为Native方法服务。当一个JVM创建的线程调用native方法后，JVM不再为其在虚拟机栈中创建栈帧，JVM只是简单地动态链接并直接调用native方法。虚拟机规范无强制规定，各版本虚拟机自由实现HotSpot直接把本地方法栈和虚拟机栈合二为一。</p>
 </li>
-<li><p>方法区<br>&emsp;&emsp;保存类信息、常量、静态变量和即时编译期编译后的代码。在JDK&lt;=1.7时叫永久代，而JDK&gt;=1.8是属于元空间（好处：扩展方便；缺点是：挤压堆空间）<br>(1).Oraclehotspot和JRocket(无永久代)。</p>
+<li><p>方法区<br>&emsp;&emsp;保存类信息、常量、静态变量和即时编译期编译后的代码。在JDK&lt;=1.7时叫永久代，而JDK&gt;=1.8是属于元空间（好处：扩展方便；缺点是：挤压堆空间）</p>
+<ul>
+<li>Oraclehotspot和JRocket(无永久代)。</li>
+</ul>
 </li>
 <li><p>Java堆<br>&emsp;存放对象实例和数组，对象和数组频繁回收。<br>&emsp;Java堆的大小参数设置:</p>
-<blockquote>
-<p>-Xmx 堆区内存可被分配的最大上限。<br>-Xms 堆区内存初始内存分配的大小。</p>
-</blockquote>
-</li>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs JAVA"><span class="hljs-comment">// -Xmx 堆区内存可被分配的最大上限。</span><br><span class="hljs-comment">// -Xms 堆区内存初始内存分配的大小。</span><br></code></pre></td></tr></table></figure></li>
 <li><p>直接内存—堆外内存<br>&emsp;&emsp;不是虚拟机运行时数据区的一部分，也不是java虚拟机规范中定义的内存区域;如果使用了NIO这块区域会被频繁使用，在java堆内可以用directByteBuffer对象直接引用并操作;这块内存不受java堆大小限制，但受本机总内存的限制可以通过MaxDirectMemorySize来设置(默认与堆内存最大值一样)，所以也会出现OOM异常。</p>
 </li>
 </ul>
@@ -280,16 +280,24 @@
 </li>
 </ul>
 <h2 id="对象的内存布局"><a href="#对象的内存布局" class="headerlink" title="对象的内存布局"></a>对象的内存布局</h2><ul>
-<li>对象头<br>&emsp;&emsp;对象头也分为三块：存储对象自身的运行时数据(Mark Word)、类型指针和若为对象数组则还有记录数组长度的数据。</li>
-<li>Mark Word<br>&emsp;&emsp;包括哈希码、GC分代年龄、锁状态标识、线程持有的锁、偏向线程ID和偏向时间戳。</li>
-<li>类型指针<br>&emsp;&emsp;对象指向它的类元数据的指针，虚拟机通过这个指针来确定这个对象是那个类的实例。</li>
-<li>实例数据<br>&emsp;&emsp;是对象真正存储的有效信息，也是在程序中所定义的各种类型的字段内容。</li>
-<li>对齐填充<br>&emsp;&emsp;不是必然存在的，也没有什么特别的含义，仅仅起占位作用。因为Hotspot虚拟机的自动内存管理系统要求对象起始地址必须是8字节的整数倍，换句话说就是对象的大小必须是8字节的整数倍。而对象头部分正好是8字节的倍数，因此，当对象实例数据部分没有对齐时，就需要通过对齐填充来补全。</li>
+<li><p>对象头<br>&emsp;&emsp;对象头也分为三块：存储对象自身的运行时数据(Mark Word)、类型指针和若为对象数组则还有记录数组长度的数据。</p>
+</li>
+<li><p>Mark Word<br>&emsp;&emsp;包括哈希码、GC分代年龄、锁状态标识、线程持有的锁、偏向线程ID和偏向时间戳。</p>
+</li>
+<li><p>类型指针<br>&emsp;&emsp;对象指向它的类元数据的指针，虚拟机通过这个指针来确定这个对象是那个类的实例。</p>
+</li>
+<li><p>实例数据<br>&emsp;&emsp;是对象真正存储的有效信息，也是在程序中所定义的各种类型的字段内容。</p>
+</li>
+<li><p>对齐填充<br>&emsp;&emsp;不是必然存在的，也没有什么特别的含义，仅仅起占位作用。因为Hotspot虚拟机的自动内存管理系统要求对象起始地址必须是8字节的整数倍，换句话说就是对象的大小必须是8字节的整数倍。而对象头部分正好是8字节的倍数，因此，当对象实例数据部分没有对齐时，就需要通过对齐填充来补全。</p>
+</li>
 </ul>
 <h2 id="对象的访问定位"><a href="#对象的访问定位" class="headerlink" title="对象的访问定位"></a>对象的访问定位</h2><ul>
-<li>句柄<br><img src="http://i2.tiimg.com/736325/a01ecfd5265dc581.jpg"><br>&emsp;如果使用句柄访问的话那么Java堆中将会划分出一块内存来作为句柄池，reference中存储的就是对象的句柄地址而句柄中包含了对象实例数据与类型数据各自的具体地址信息。</li>
-<li>直接指针<br><img src="http://i2.tiimg.com/736325/89ad7482cdbe1093.jpg"><br>&emsp;&emsp;如果使用直接指针访问reference中存储的直接就是对象地址。</li>
-<li>两者比较<br>&emsp;&emsp;这两种对象访问方式各有优势，使用句柄来访问的最大好处就是reference中存储的是稳定的句柄地址，在对象被移动(垃圾收集时移动对象是非常普遍的行为)时只会改变句柄中的实例数据指针而reference本身不需要修改。使用直接指针访问方式的最大好处就是速度更快，它节省了一次指针定位的时间开销，由于对象的访问在Java中非常频繁，因此这类开销积少成多后也是一项非常可观的执行成本。</li>
+<li><p>句柄<br><img src="http://i2.tiimg.com/736325/a01ecfd5265dc581.jpg"><br>&emsp;如果使用句柄访问的话那么Java堆中将会划分出一块内存来作为句柄池，reference中存储的就是对象的句柄地址而句柄中包含了对象实例数据与类型数据各自的具体地址信息。</p>
+</li>
+<li><p>直接指针<br><img src="http://i2.tiimg.com/736325/89ad7482cdbe1093.jpg"><br>&emsp;&emsp;如果使用直接指针访问reference中存储的直接就是对象地址。</p>
+</li>
+<li><p>两者比较<br>&emsp;&emsp;这两种对象访问方式各有优势，使用句柄来访问的最大好处就是reference中存储的是稳定的句柄地址，在对象被移动(垃圾收集时移动对象是非常普遍的行为)时只会改变句柄中的实例数据指针而reference本身不需要修改。使用直接指针访问方式的最大好处就是速度更快，它节省了一次指针定位的时间开销，由于对象的访问在Java中非常频繁，因此这类开销积少成多后也是一项非常可观的执行成本。</p>
+</li>
 </ul>
 <h2 id="判断对象是否存活"><a href="#判断对象是否存活" class="headerlink" title="判断对象是否存活"></a>判断对象是否存活</h2><ul>
 <li><p>引用计数法<br>&emsp;&emsp;在对象中添加一个引用计数器，每当有一个地方引用它计数器就加1，当引用失效时计数器减1。Python在用、但主流虚拟机没有使用，因为存在对象相互引用的情况，这个时候需要引入额外的机制来处理这样做影响效率。</p>
@@ -332,23 +340,34 @@
 <li>Finalize方法<br>&emsp;&emsp;即使通过可达性分析判断不可达的对象，也不是“非死不可”，它还会处于“缓刑”阶段，真正要宣告一个对象死亡，需要经过两次标记过程，一次是没有找到与GCRoots的引用链，它将被第一次标记。随后进行一次筛选（如果对象覆盖了finalize），我们可以在finalize中去拯救，并且Finalize方法只会zhixing一次。</li>
 </ul>
 <h2 id="对象的引用"><a href="#对象的引用" class="headerlink" title="对象的引用"></a>对象的引用</h2><ul>
-<li>强引用<br>&emsp;一般的Object obj = new Object()，就属于强引用。在任何情况下只有有强引用关联(与根可达)还在，垃圾回收器就永远不会回收掉被引用的对象。</li>
-<li>软引用(SoftReference)<br>&emsp;一些有用但是并非必需，用软引用关联的对象系统将要发生内存溢出(OuyOfMemory)之前这些对象就会被回收(如果这次回收后还是没有足够的空间，才会抛出内存溢出)。</li>
-<li>弱引用(WeakReference)<br>&emsp;一些有用(程度比软引用更低)但是并非必需、用弱引用关联的对象，只能生存到下一次垃圾回收之前，GC发生时不管内存够不够,都会被回收。</li>
-<li>虚引用(PhantomReference)<br>&emsp;幽灵引用、最弱（随时会被回收掉）。垃圾回收的时候收到一个通知，就是为了监控垃圾回收器是否正常工作。</li>
+<li><p>强引用<br>&emsp;一般的Object obj = new Object()，就属于强引用。在任何情况下只有有强引用关联(与根可达)还在，垃圾回收器就永远不会回收掉被引用的对象。</p>
+</li>
+<li><p>软引用(SoftReference)<br>&emsp;一些有用但是并非必需，用软引用关联的对象系统将要发生内存溢出(OuyOfMemory)之前这些对象就会被回收(如果这次回收后还是没有足够的空间，才会抛出内存溢出)。</p>
+</li>
+<li><p>弱引用(WeakReference)<br>&emsp;一些有用(程度比软引用更低)但是并非必需、用弱引用关联的对象，只能生存到下一次垃圾回收之前，GC发生时不管内存够不够,都会被回收。</p>
+</li>
+<li><p>虚引用(PhantomReference)<br>&emsp;幽灵引用、最弱（随时会被回收掉）。垃圾回收的时候收到一个通知，就是为了监控垃圾回收器是否正常工作。</p>
+</li>
 </ul>
 <h2 id="对象分配策略"><a href="#对象分配策略" class="headerlink" title="对象分配策略"></a>对象分配策略</h2><p>分配策略图<br><img src="http://i2.tiimg.com/736325/11667572dfaa99c2.png"></p>
 <h3 id="分配原则"><a href="#分配原则" class="headerlink" title="分配原则"></a>分配原则</h3><ul>
-<li>对象优先在Eden区分配<br>&emsp;&emsp;大多数情况下对象在新生代Eden区中分配，当Eden区没有足够空间分配时，虚拟机将发起一次Minor GC。</li>
-<li>空间分配担保<br>&emsp;&emsp;在发生Minor GC之前虚拟机会先检查老年代最大可用的连续空间是否大于新生代所有对象总空间,如果这个条件成立那么Minor GC可以确保是安全的。如果不成立则虚拟机会查看HandlePromotionFailure设置值是否允许担保失败。如果允许那么会继续检查老年代最大可用的连续空间是否大于历次晋升到老年代对象的平均大小，如果大于将尝试着进行一次Minor GC 尽管这次Minor GC是有风险的，如果担保失败则会进行一次Full GC，如果小于或者HandlePromotionFailure设置不允许冒险，那这时也要改为进行一次Full GC。</li>
-<li>大对象直接进入老年代<br>&emsp;&emsp;最典型的大对象是那种很长的字符串以及数组，这样做的目的:①避免大量内存复制。 ②避免提前进行垃圾回收,明明内存有空间进行分配。</li>
-<li>长期存活的对象进入老年代<br>&emsp;&emsp;如果对象在Eden出生并经过第一次Minor GC后仍然存活并且能被Survivor容纳的话，将被移动到Survivor空间中并将对象年龄设为1，对象在Survivor区中每熬过一次 Minor GC年龄就增加1,，当它的年龄增加到一定程度(并发的垃圾回收器默认为15)CMS是6时，就会被晋升到老年代中。</li>
-<li>动态对象年龄判定<br>&emsp;&emsp;为了能更好地适应不同程序的内存状况，虚拟机并不是永远地要求对象的年龄必须达到了MaxTenuringThreshold才能晋升老年代，如果在Survivor空间中相同年龄所有对象大小的总和大于Survivor空间的一半，年龄大于或等于该年龄的对象就可以直接进入老年代，无须等到MaxTenuringThreshold中要求的年龄。</li>
+<li><p>对象优先在Eden区分配<br>&emsp;&emsp;大多数情况下对象在新生代Eden区中分配，当Eden区没有足够空间分配时，虚拟机将发起一次Minor GC。</p>
+</li>
+<li><p>空间分配担保<br>&emsp;&emsp;在发生Minor GC之前虚拟机会先检查老年代最大可用的连续空间是否大于新生代所有对象总空间,如果这个条件成立那么Minor GC可以确保是安全的。如果不成立则虚拟机会查看HandlePromotionFailure设置值是否允许担保失败。如果允许那么会继续检查老年代最大可用的连续空间是否大于历次晋升到老年代对象的平均大小，如果大于将尝试着进行一次Minor GC 尽管这次Minor GC是有风险的，如果担保失败则会进行一次Full GC，如果小于或者HandlePromotionFailure设置不允许冒险，那这时也要改为进行一次Full GC。</p>
+</li>
+<li><p>大对象直接进入老年代<br>&emsp;&emsp;最典型的大对象是那种很长的字符串以及数组，这样做的目的:①避免大量内存复制。 ②避免提前进行垃圾回收,明明内存有空间进行分配。</p>
+</li>
+<li><p>长期存活的对象进入老年代<br>&emsp;&emsp;如果对象在Eden出生并经过第一次Minor GC后仍然存活并且能被Survivor容纳的话，将被移动到Survivor空间中并将对象年龄设为1，对象在Survivor区中每熬过一次 Minor GC年龄就增加1,，当它的年龄增加到一定程度(并发的垃圾回收器默认为15)CMS是6时，就会被晋升到老年代中。</p>
+</li>
+<li><p>动态对象年龄判定<br>&emsp;&emsp;为了能更好地适应不同程序的内存状况，虚拟机并不是永远地要求对象的年龄必须达到了MaxTenuringThreshold才能晋升老年代，如果在Survivor空间中相同年龄所有对象大小的总和大于Survivor空间的一半，年龄大于或等于该年龄的对象就可以直接进入老年代，无须等到MaxTenuringThreshold中要求的年龄。</p>
+</li>
 </ul>
 <h3 id="对象分配优化技术"><a href="#对象分配优化技术" class="headerlink" title="对象分配优化技术"></a>对象分配优化技术</h3><p>&emsp;&emsp;几乎所有的对象都在堆中分配，可以通过逃逸技术在栈上分配。</p>
 <ul>
-<li>逃逸分析<br>&emsp;&emsp;如果是逃逸分析出来的对象可以在栈上分配的话，那么该对象的生命周期就跟随线程了就不需要垃圾回收，如果是频繁的调用此方法则可以得到很大的性能提高。</li>
-<li>本地线程分配缓冲(TLAB)</li>
+<li><p>逃逸分析<br>&emsp;&emsp;如果是逃逸分析出来的对象可以在栈上分配的话，那么该对象的生命周期就跟随线程了就不需要垃圾回收，如果是频繁的调用此方法则可以得到很大的性能提高。</p>
+</li>
+<li><p>本地线程分配缓冲(TLAB)</p>
+</li>
 </ul>
 <h2 id="小结-1"><a href="#小结-1" class="headerlink" title="小结"></a>小结</h2><p>&emsp;&emsp;(1).对象创建:类加载检查–&gt;分配内存–&gt;内存初始化–&gt;设置对象头–&gt;执行构造方法。<br>&emsp;&emsp;(2).分配方式:指针碰撞和空闲列表，是根据内存的规整来确定，内存规整度取决于GC回收算法是“标记–清除”还是“标记–整理”。<br>&emsp;&emsp;(3).内存分配并发处理的两种方式:CAS+失败重试和TLAB。<br>&emsp;&emsp;(4).内存布局:对象头、实例数据和对齐填充。<br>&emsp;&emsp;(5).访问定位:句柄和直接指针（目前主要是直接指针）。<br>&emsp;&emsp;(6).是否存活:引用计数法和可达性分析法。<br>&emsp;&emsp;(7).对象引用:强引用、软引用、弱引用和虚引用。<br>&emsp;&emsp;(8).分配策略:分配原则和优化技术。</p>
 <h1 id="三、垃圾回收机制"><a href="#三、垃圾回收机制" class="headerlink" title="三、垃圾回收机制"></a>三、垃圾回收机制</h1><p>&emsp;&emsp;前面我们讲了一个对象是如何在JVM中创建并分配内存、对象的引用和判断对象是否存活，那么当一个对象不被引用了，我们该怎么从JVM中回收它呢？</p>
@@ -414,10 +433,12 @@
 </tbody></table>
 <p>&emsp;&emsp;参照以上图、表可知JVM垃圾收集器是一步一步演进，从单线程到多线程;从并行(垃圾收集的多线程的同时进行)到并发(垃圾收集的多线程和应用的多线程同时进行)。</p>
 <h3 id="CMS垃圾回收器"><a href="#CMS垃圾回收器" class="headerlink" title="CMS垃圾回收器"></a>CMS垃圾回收器</h3><ul>
-<li>CMS垃圾回收器主要有以下五点<br>①初始标记:标记根（GCRoots）相连对象。<br>②并发标记:标记需要回收的对象。<br>③重新标记:重新标记调整过的对象。<br>④并发清理:清理已标记的对象。<br>⑤重置线程:清除垃圾线程。</li>
-<li>CMS缺点<br>&emsp;&emsp;cpu敏感、浮动垃圾和内存碎片。浮动垃圾:由于CMS并发清理阶段用户线程还在运行着，伴随程序运行自然就还会有新的垃圾不断产生，这一部分垃圾出现在标记过程之后CMS无法在当次收集中处理掉它们，只好留待下一次GC时再清理掉，这一部分垃圾就称为“浮动垃圾”。<br>CMS垃圾回收过程图<br><img src="http://i2.tiimg.com/736325/28380d190c58de38.png"></li>
+<li><p>CMS垃圾回收器主要有以下五点<br>①初始标记:标记根（GCRoots）相连对象。<br>②并发标记:标记需要回收的对象。<br>③重新标记:重新标记调整过的对象。<br>④并发清理:清理已标记的对象。<br>⑤重置线程:清除垃圾线程。</p>
+</li>
+<li><p>CMS缺点<br>&emsp;&emsp;cpu敏感、浮动垃圾和内存碎片。浮动垃圾:由于CMS并发清理阶段用户线程还在运行着，伴随程序运行自然就还会有新的垃圾不断产生，这一部分垃圾出现在标记过程之后CMS无法在当次收集中处理掉它们，只好留待下一次GC时再清理掉，这一部分垃圾就称为“浮动垃圾”。<br>CMS垃圾回收过程图<br><img src="http://i2.tiimg.com/736325/28380d190c58de38.png"></p>
+</li>
 </ul>
-<h3 id="G1垃圾收集器-Garbage-First"><a href="#G1垃圾收集器-Garbage-First" class="headerlink" title="G1垃圾收集器(Garbage First)"></a>G1垃圾收集器(Garbage First)</h3><p>  ①追求停顿时间。<br>  ②Region区。<br>  ③筛选回收。<br>  ④可预测停顿。<br>  ⑤复制和标记整理。<br>  G1垃圾回收过程图<br>  <img src="http://i2.tiimg.com/736325/2c4fcfd7f4d37cb6.png"> <img src="http://i2.tiimg.com/736325/53c6af9586ec3446.png"></p>
+<h3 id="G1垃圾收集器-Garbage-First"><a href="#G1垃圾收集器-Garbage-First" class="headerlink" title="G1垃圾收集器(Garbage First)"></a>G1垃圾收集器(Garbage First)</h3><p>①追求停顿时间。<br>②Region区。<br>③筛选回收。<br>④可预测停顿。<br>⑤复制和标记整理。<br>G1垃圾回收过程图<br><img src="http://i2.tiimg.com/736325/2c4fcfd7f4d37cb6.png"> <img src="http://i2.tiimg.com/736325/53c6af9586ec3446.png"></p>
 <h1 id="四、总结"><a href="#四、总结" class="headerlink" title="四、总结"></a>四、总结</h1><p>&emsp;&emsp;(1).JVM的内存结构？<br>&emsp;&emsp;(2).什么情况会内存栈溢出？<br>&emsp;&emsp;(3).JVM创建对象过程？<br>&emsp;&emsp;(4).Java对象会不会分配在栈中？<br>&emsp;&emsp;(5).如何判断一个对象是否存活、有哪些算法、实际虚拟机用的最多的是什么？<br>&emsp;&emsp;(6).GC收集算法有哪些，他们的特点是什么？<br>&emsp;&emsp;(7).Java有几种引用，它们的区别是什么？<br>&emsp;&emsp;(8).JVM完整的GC流程，对象如何进入老年代？<br>&emsp;&emsp;(9).String str=new String(“”)创建了几个对象？</p>
 </section>
     <!-- Tags START -->
