@@ -438,7 +438,7 @@
 <li><p>CMS缺点<br>&emsp;&emsp;cpu敏感、浮动垃圾和内存碎片。浮动垃圾:由于CMS并发清理阶段用户线程还在运行着，伴随程序运行自然就还会有新的垃圾不断产生，这一部分垃圾出现在标记过程之后CMS无法在当次收集中处理掉它们，只好留待下一次GC时再清理掉，这一部分垃圾就称为“浮动垃圾”。<br>CMS垃圾回收过程图<br><img src="http://i2.tiimg.com/736325/28380d190c58de38.png"></p>
 </li>
 </ul>
-<h3 id="G1垃圾收集器-Garbage-First"><a href="#G1垃圾收集器-Garbage-First" class="headerlink" title="G1垃圾收集器(Garbage First)"></a>G1垃圾收集器(Garbage First)</h3><p>①追求停顿时间。<br>②Region区。<br>③筛选回收。<br>④可预测停顿。<br>⑤复制和标记整理。<br>G1垃圾回收过程图<br><img src="http://i2.tiimg.com/736325/2c4fcfd7f4d37cb6.png"> <img src="http://i2.tiimg.com/736325/53c6af9586ec3446.png"></p>
+<h3 id="G1垃圾收集器-Garbage-First"><a href="#G1垃圾收集器-Garbage-First" class="headerlink" title="G1垃圾收集器(Garbage First)"></a>G1垃圾收集器(Garbage First)</h3><p>&emsp;&emsp;①追求停顿时间。<br>&emsp;&emsp;②Region区。<br>&emsp;&emsp;③筛选回收。<br>&emsp;&emsp;④可预测停顿。<br>&emsp;&emsp;⑤复制和标记整理。<br>G1垃圾回收过程图<br><img src="http://i2.tiimg.com/736325/2c4fcfd7f4d37cb6.png"> <img src="http://i2.tiimg.com/736325/53c6af9586ec3446.png"></p>
 <h1 id="四、总结"><a href="#四、总结" class="headerlink" title="四、总结"></a>四、总结</h1><p>&emsp;&emsp;(1).JVM的内存结构？<br>&emsp;&emsp;(2).什么情况会内存栈溢出？<br>&emsp;&emsp;(3).JVM创建对象过程？<br>&emsp;&emsp;(4).Java对象会不会分配在栈中？<br>&emsp;&emsp;(5).如何判断一个对象是否存活、有哪些算法、实际虚拟机用的最多的是什么？<br>&emsp;&emsp;(6).GC收集算法有哪些，他们的特点是什么？<br>&emsp;&emsp;(7).Java有几种引用，它们的区别是什么？<br>&emsp;&emsp;(8).JVM完整的GC流程，对象如何进入老年代？<br>&emsp;&emsp;(9).String str=new String(“”)创建了几个对象？</p>
 </section>
     <!-- Tags START -->
