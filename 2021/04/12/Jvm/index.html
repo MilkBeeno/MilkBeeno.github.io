@@ -168,8 +168,8 @@
 <h3 id="对象class文件结构"><a href="#对象class文件结构" class="headerlink" title="对象class文件结构"></a>对象class文件结构</h3><p>一个对象编译后的class文件主要有以下三点组成</p>
 <ul>
 <li>结构信息<br>&emsp;包括class文件格式版本号及各部分的数量与大小的信息。</li>
-<li>元数据<br>&emsp;对应于Java源码中声明与常量的信息。包含类，继承的超类，实现的接口的声明信息，域与方法声明信息和常量池。</li>
-<li>方法信息<br>&emsp;对应Java源码中语句和表达式对应的信息。包含字节码，异常处理器表，求值栈与局部变量区大小，求值栈的类型记录，调试符号信息。</li>
+<li>元数据<br>&emsp;对应于Java源码中声明与常量的信息。包含类,继承的超类,实现的接口的声明信息,域与方法声明信息和常量池。</li>
+<li>方法信息<br>&emsp;对应Java源码中语句和表达式对应的信息。包含字节码,异常处理器表,求值栈与局部变量区大小,求值栈的类型记录,调试符号信息。</li>
 </ul>
 <p>&emsp;&emsp;以上的描述可能不是很清晰，我们可以用010editor编辑器来直观的了解class文件到底是怎样的。首先创建一个类、编译生成一个class文件，打开后我们可以看到如下图所示<br><img src="http://i2.tiimg.com/736325/b42c93a5da97fee2.png"><br>&emsp;&emsp;对于每一个对象生成的class文件都有对应于一个如下图所示的ClassFile 结构体<br><img src="http://i2.tiimg.com/736325/ceb97f9fb23d956a.png"><br>&emsp;&emsp;也可以使用反编译查看class文件内容：javap -c 类名称，反编译后的格式、文字含义等等。</p>
 <blockquote>
@@ -183,23 +183,23 @@
 <ul>
 <li>通过一个类的全限定名来获取定义此类的二进制字节流</li>
 <li>将这个字节流所代表的静态存储结构转化为方法区的运行时数据结构</li>
-<li>在内存中生成一个代表这个类的java.lang.Class对象，作为方法区这个类的各种数据的访问入口。</li>
+<li>在内存中生成一个代表这个类的java.lang.Class对象,作为方法区这个类的各种数据的访问入口。</li>
 </ul>
 </li>
-<li><p>验证<br>&emsp;为了确保Class文件的字节流中包含的信息符合当前虚拟机的要求，不会危害虚拟机的安全，Java虚拟机对输入的字节流走验证过程。</p>
+<li><p>验证<br>&emsp;为了确保Class文件的字节流中包含的信息符合当前虚拟机的要求,不会危害虚拟机的安全,Java虚拟机对输入的字节流走验证过程。</p>
 <ul>
-<li>文件格式验证<br>&emsp;验证字节流是否符合Class文件格式规范。如：是否以魔数0xCAFEBABE开头。</li>
-<li>元数据验证<br>&emsp;对字节码描述的信息进行语义分析。如：这个类的父类是否继承了不允许被继承的类(被final修饰的类)。</li>
-<li>字节码验证<br>&emsp;主要目的是通过数据流和控制流分析、确定程序语义是合法的、符合逻辑的。如：保证跳转指令不会跳转到方法体以外的字节码指令上。</li>
-<li>符号引用验证<br>&emsp;发生在虚拟机将符号引用转化为直接引用的时候。如：校验符号引用中通过字符串描述的全限定名是否能找到对应的类。</li>
+<li>文件格式验证<br>&emsp;验证字节流是否符合Class文件格式规范;如:是否以魔数0xCAFEBABE开头。</li>
+<li>元数据验证<br>&emsp;对字节码描述的信息进行语义分析;如:这个类的父类是否继承了不允许被继承的类(被final修饰的类)。</li>
+<li>字节码验证<br>&emsp;主要目的是通过数据流和控制流分析,确定程序语义是合法的,符合逻辑的。如:保证跳转指令不会跳转到方法体以外的字节码指令上。</li>
+<li>符号引用验证<br>&emsp;发生在虚拟机将符号引用转化为直接引用的时候;如:校验符号引用中通过字符串描述的全限定名是否能找到对应的类。</li>
 </ul>
 </li>
 <li><p>类加载过程如图所示<br><img src="http://i2.tiimg.com/736325/4fafafe5796c2b99.png"></p>
 <ul>
-<li>Bootstrap ClassLoader：负责加载JAVA_HOME中jre/lib/rt.jar里所有的 class，由C++实现不是ClassLoader子类。</li>
-<li>Extension ClassLoader：负责加载Java平台中扩展功能的一些jar包、包括JAVA_HOME中jre/lib/*.jar或-Djava.ext.dirs指定目录下的jar包。</li>
-<li>App ClassLoader：负责记载classpath中指定的jar包及目录中class。</li>
-<li>Custom ClassLoader：属于应用程序根据自身需要自定义的ClassLoader;如Tomcat、jboss都会根据J2EE规范自行实现ClassLoader。</li>
+<li>Bootstrap ClassLoader:负责加载JAVA_HOME中jre/lib/rt.jar里所有的 class，由C++实现不是ClassLoader子类。</li>
+<li>Extension ClassLoader:负责加载Java平台中扩展功能的一些jar包、包括JAVA_HOME中jre/lib/*.jar或-Djava.ext.dirs指定目录下的jar包。</li>
+<li>App ClassLoader:负责记载classpath中指定的jar包及目录中class。</li>
+<li>Custom ClassLoader:属于应用程序根据自身需要自定义的ClassLoader;如Tomcat、jboss都会根据J2EE规范自行实现ClassLoader。</li>
 </ul>
 <p>&emsp;&emsp;加载过程中会先检查类是否被已加载，检查顺序是自底向上，从Custom ClassLoader到BootStrap ClassLoader 逐层检查，只要某个Classloader已加载就视为已加载此类，保证此类只所有ClassLoader加载一次，而加载的顺序是自顶向下，也就是由上层来逐层尝试加载此类。</p>
 </li>
@@ -208,20 +208,21 @@
 <ul>
 <li><p>程序计数器<br>&emsp;&emsp;字节码解释器工作时通过改变这个计数器的值来选取下一条需要执行的字节码指令，分支、循环、跳转、异常处理、线程恢复等功能都需要依赖这个计数器来完。通过反汇编可以得到一个Class对象的信息，如下图所示 Code标识方法内部代码执行的行号也是偏移量，而程序计数器就是记录Code的地址。程序计数器存在的作用：操作系统分配任务时使用时间片轮转法，当执行代码被挂起后，它可以记录代码执行的位置，以便下次轮转分配到内存时，继续执行上次中断任务。程序计数器是JVM内存区域唯一不会OOM的区域。<br><img src="http://i1.fuimg.com/736325/854284581101c0dd.png"></p>
 </li>
-<li><p>虚拟机栈<br>&emsp;&emsp;存储当前线程运行方法所需的数据，指令，返回地址。</p>
+<li><p>虚拟机栈<br>&emsp;&emsp;存储当前线程运行方法所需的数据,指令,返回地址。</p>
 <ul>
-<li>栈帧<br>&emsp;&emsp;①局部变量表：存储8大数据类型和引用数据类型②操作数栈：存放方法执行、操作③动态连接：解决多态问题，确定是哪一个对象④完成出口：返回地址<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs Java">  <span class="hljs-comment">/**</span><br><span class="hljs-comment"> *  以下对应work()方法的操作数栈的步骤：</span><br><span class="hljs-comment"> *  iconst_1  将int型 1 入操作数栈</span><br><span class="hljs-comment"> *  istore_1  将操作数栈中栈顶int型数值，存入局部变量表中(下标为1的位置)</span><br><span class="hljs-comment"> *  iconst_2  将int型 2 入操作数栈</span><br><span class="hljs-comment"> *  istore_2  将操作数栈中栈顶int型数值，存入局部变量表中(下标为2的位置)</span><br><span class="hljs-comment"> *  iload_1   将局部变量表中下标为1的int型数据入栈</span><br><span class="hljs-comment"> *  iload_2   将局部变量表中下标为2的int型数据入栈</span><br><span class="hljs-comment"> *  iadd      ①将栈顶两int型数值出栈 ②相加 ③并将结果压入操作数栈</span><br><span class="hljs-comment"> *  bipush 10 10的值扩展int值入操作数栈</span><br><span class="hljs-comment"> *  imul      ①将栈顶两int数值出栈 ②相加相乘 ③将结果压入操作数栈</span><br><span class="hljs-comment"> *  istore_3  将操作数栈栈顶int型数值，存入局部变量表(下标为3的位置)</span><br><span class="hljs-comment"> *  iload_3   将局部变量表中下标为3的int型数据入栈</span><br><span class="hljs-comment"> *  ireturn   返回数值</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Person</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">work</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">int</span> x = <span class="hljs-number">1</span>;<br>        <span class="hljs-keyword">int</span> y = <span class="hljs-number">2</span>;<br>        <span class="hljs-keyword">int</span> z = (x + y) * <span class="hljs-number">10</span>;<br>        <span class="hljs-keyword">return</span> z;<br>    &#125;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String args[])</span> </span>&#123;<br>        Person person = <span class="hljs-keyword">new</span> Person();<br>        person.work();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure></li>
-<li>大小限制-Xss：栈的大小。</li>
+<li>栈帧<br>&emsp;&emsp;①局部变量表:存储8大数据类型和引用数据类型②操作数栈:存放方法执行、操作③动态连接:解决多态问题，确定是哪一个对象④完成出口:返回地址<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs Java">  <span class="hljs-comment">/**</span><br><span class="hljs-comment"> *  以下对应work()方法的操作数栈的步骤：</span><br><span class="hljs-comment"> *  iconst_1  将int型 1 入操作数栈</span><br><span class="hljs-comment"> *  istore_1  将操作数栈中栈顶int型数值，存入局部变量表中(下标为1的位置)</span><br><span class="hljs-comment"> *  iconst_2  将int型 2 入操作数栈</span><br><span class="hljs-comment"> *  istore_2  将操作数栈中栈顶int型数值，存入局部变量表中(下标为2的位置)</span><br><span class="hljs-comment"> *  iload_1   将局部变量表中下标为1的int型数据入栈</span><br><span class="hljs-comment"> *  iload_2   将局部变量表中下标为2的int型数据入栈</span><br><span class="hljs-comment"> *  iadd      ①将栈顶两int型数值出栈 ②相加 ③并将结果压入操作数栈</span><br><span class="hljs-comment"> *  bipush 10 10的值扩展int值入操作数栈</span><br><span class="hljs-comment"> *  imul      ①将栈顶两int数值出栈 ②相加相乘 ③将结果压入操作数栈</span><br><span class="hljs-comment"> *  istore_3  将操作数栈栈顶int型数值，存入局部变量表(下标为3的位置)</span><br><span class="hljs-comment"> *  iload_3   将局部变量表中下标为3的int型数据入栈</span><br><span class="hljs-comment"> *  ireturn   返回数值</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Person</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">work</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">int</span> x = <span class="hljs-number">1</span>;<br>        <span class="hljs-keyword">int</span> y = <span class="hljs-number">2</span>;<br>        <span class="hljs-keyword">int</span> z = (x + y) * <span class="hljs-number">10</span>;<br>        <span class="hljs-keyword">return</span> z;<br>    &#125;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String args[])</span> </span>&#123;<br>        Person person = <span class="hljs-keyword">new</span> Person();<br>        person.work();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure></li>
 </ul>
 </li>
-<li><p>本地方法栈<br>&emsp;&emsp;Native方法运行的空间，为Native方法服务。当一个JVM创建的线程调用native方法后，JVM不再为其在虚拟机栈中创建栈帧，JVM只是简单地动态链接并直接调用native方法。虚拟机规范无强制规定，各版本虚拟机自由实现HotSpot直接把本地方法栈和虚拟机栈合二为一。</p>
+<li><p>大小限制-Xss:栈的大小。</p>
+</li>
+<li><p>本地方法栈<br>&emsp;&emsp;Native方法运行的空间,为Native方法服务。当一个JVM创建的线程调用native方法后，JVM不再为其在虚拟机栈中创建栈帧，JVM只是简单地动态链接并直接调用native方法。虚拟机规范无强制规定，各版本虚拟机自由实现HotSpot直接把本地方法栈和虚拟机栈合二为一。</p>
 </li>
 <li><p>方法区<br>&emsp;&emsp;保存类信息、常量、静态变量和即时编译期编译后的代码。在JDK&lt;=1.7时叫永久代，而JDK&gt;=1.8是属于元空间（好处：扩展方便；缺点是：挤压堆空间）</p>
 <ul>
 <li>Oraclehotspot和JRocket(无永久代)。</li>
 </ul>
 </li>
-<li><p>Java堆<br>&emsp;存放对象实例和数组，对象和数组频繁回收。<br>&emsp;Java堆的大小参数设置：</p>
+<li><p>Java堆<br>&emsp;存放对象实例和数组，对象和数组频繁回收。<br>&emsp;Java堆的大小参数设置:</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs JAVA"><span class="hljs-comment">// -Xmx 堆区内存可被分配的最大上限。</span><br><span class="hljs-comment">// -Xms 堆区内存初始内存分配的大小。</span><br></code></pre></td></tr></table></figure></li>
 <li><p>直接内存—堆外内存<br>&emsp;&emsp;不是虚拟机运行时数据区的一部分，也不是java虚拟机规范中定义的内存区域;如果使用了NIO这块区域会被频繁使用，在java堆内可以用directByteBuffer对象直接引用并操作;这块内存不受java堆大小限制，但受本机总内存的限制可以通过MaxDirectMemorySize来设置(默认与堆内存最大值一样)，所以也会出现OOM异常。</p>
 </li>
@@ -256,26 +257,20 @@
 <h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>(1).功能</p>
 <ul>
 <li>以栈帧的方式存储方法调用的过程，并存储方法调用过程中基本数据类型的变量(int、short、long、byte、float、double、boolean、char等)<br>以及对象的引用变量，其内存分配在栈上，变量出了作用域就会自动释放。</li>
-<li>堆内存用来存储Java中的对象。无论是成员变量，局部变量，还是类变量，它们指向的对象都存储在堆内存中。</li>
-</ul>
-<p>(2).线程独享还是共享</p>
-<ul>
+<li>堆内存用来存储Java中的对象。无论是成员变量,局部变量,还是类变量，它们指向的对象都存储在堆内存中。<br>(2).线程独享还是共享</li>
 <li>栈内存归属于单个线程，每个线程都会有一个栈内存，其存储的变量只能在其所属线程中可见，即栈内存可以理解成线程的私有内存。</li>
-<li>堆内存中的对象对所有线程可见，堆内存中的对象可以被所有线程访问。</li>
-</ul>
-<p>(3).空间大小</p>
-<ul>
+<li>堆内存中的对象对所有线程可见，堆内存中的对象可以被所有线程访问。<br>(3).空间大小</li>
 <li>栈的内存要远远小于堆内存，栈的深度是有限制的，可能发生StackOverFlowError问题。</li>
 </ul>
 <h1 id="二、虚拟机中对象创建的过程"><a href="#二、虚拟机中对象创建的过程" class="headerlink" title="二、虚拟机中对象创建的过程"></a>二、虚拟机中对象创建的过程</h1><p>&emsp;&emsp;如上我们已经分析出Java代码是如何被加载进JVM、运行时在JVM中的内存分配以及类函数方法是如何执行、调用的。那么JVM中遇到new指令时，它做了哪些事情，对象创建步骤有哪些？</p>
-<h2 id="虚拟机中对象创建的过程"><a href="#虚拟机中对象创建的过程" class="headerlink" title="虚拟机中对象创建的过程"></a>虚拟机中对象创建的过程</h2><p> <img src="http://i2.tiimg.com/736325/beaeca474790b68a.png"><br>&emsp;&emsp;由上图可知一个对象的创建需要经历五个步骤：检查类加载、分配内存、内存空间初始化、设置对象头和对象初始化，接下来将分析以上五点。</p>
+<h2 id="虚拟机中对象创建的过程"><a href="#虚拟机中对象创建的过程" class="headerlink" title="虚拟机中对象创建的过程"></a>虚拟机中对象创建的过程</h2><p><img src="http://i2.tiimg.com/736325/beaeca474790b68a.png"><br>&emsp;&emsp;由上图可知一个对象的创建需要经历五个步骤：检查类加载、分配内存、内存空间初始化、设置对象头和对象初始化，接下来将分析以上五点。</p>
 <ul>
-<li><p>类加载检查<br>&emsp;&emsp;在创建对象时我们通常是使用如：Person person=new Person()。虚拟机遇到一条new指令时，首先将去检查这个指令的参数是否能在常量池中定位到这个类的符号引用(在上节中JVM类加载机制中的第二步骤—验证的第四点)，并且检查这个符号引用代表的类是否已被加载过、解析和初始化过。如果没有那必须先执行相应的类加载过程。</p>
+<li><p>类加载检查<br>&emsp;&emsp;在创建对象时我们通常是使用如:Person person=new Person()。虚拟机遇到一条new指令时，首先将去检查这个指令的参数是否能在常量池中定位到这个类的符号引用(在上节中JVM类加载机制中的第二步骤—验证的第四点)，并且检查这个符号引用代表的类是否已被加载过、解析和初始化过。如果没有那必须先执行相应的类加载过程。</p>
 </li>
 <li><p>分配内存<br>&emsp;&emsp;在类加载检查通过后，接下来虚拟机将为新生对象分配内存。对象所需的内存大小在类加载完成后便可确定，为对象分配空间的任务等同于把一块确定大小的内存从Java堆中划分出来。分配方式有 “指针碰撞” 和 “空闲列表” 两种。选择那种分配方式由 Java 堆空间规整决定，而Java堆是否规整又由所采用的垃圾收集器是否带有压缩整理功能决定。Java 堆内存是否规整，取决于 GC 收集器的算法是”标记-清除”，还是”标记-整理”(也称作”标记-压缩”)。无论只指针碰撞或空闲列表不可能只用一个线程去完成，所以分配内存时存在多线程并发问题，我们该怎么保证线程安全问题呢?</p>
 <ul>
 <li>CAS+失败重试<br>&emsp;&emsp;CAS(compare and swap)是乐观锁的一种实现方式。所谓乐观锁就是每次不加锁而是假设没有冲突而去完成某项操作，如果因为冲突失败就重试直到成功为止。虚拟机采用 CAS 配上失败重试的方式保证更新操作的原子性。</li>
-<li>TLAB<br>&emsp;&emsp;TLAB是把内存分配的动作按照线程划分在不同的空间之中进行，即每个线程在Java堆中预先分配一小块私有内存，也就是本地线程分配缓冲(Thread Local Allocation Buffer，TLAB)。JVM在线程初始化时，同时也会申请一块指定大小的内存只给当前线程使用，这样每个线程都单独拥有一个Buffer。如果需要分配内存就在自己的Buffer上分配，这样就不存在竞争的情况可以大大提升分配效率。当Buffer容量不够的时候再重新从Eden区域申请一块继续使用。<br>&emsp;&emsp;TLAB的目的是在为新对象分配内存空间时，让每个Java应用线程能在使用自己专属的分配指针来分配空间减少同步开销。<br>&emsp;&emsp;TLAB只是让每个线程有私有的分配指针，但底下存对象的内存空间还是给所有线程访问的，只是其它线程无法在这个区域分配而已。当一个TLAB用满(分配指针top撞上分配极限end了)就新申请一个TLAB。</li>
+<li>TLAB<br>&emsp;&emsp;TLAB是把内存分配的动作按照线程划分在不同的空间之中进行，即每个线程在Java堆中预先分配一小块私有内存，也就是本地线程分配缓冲(Thread Local Allocation Buffer,TLAB)。JVM在线程初始化时，同时也会申请一块指定大小的内存只给当前线程使用，这样每个线程都单独拥有一个Buffer。如果需要分配内存就在自己的Buffer上分配，这样就不存在竞争的情况可以大大提升分配效率。当Buffer容量不够的时候再重新从Eden区域申请一块继续使用。<br>&emsp;&emsp;TLAB的目的是在为新对象分配内存空间时，让每个Java应用线程能在使用自己专属的分配指针来分配空间减少同步开销。<br>&emsp;&emsp;TLAB只是让每个线程有私有的分配指针，但底下存对象的内存空间还是给所有线程访问的，只是其它线程无法在这个区域分配而已。当一个TLAB用满(分配指针top撞上分配极限end了)就新申请一个TLAB。</li>
 </ul>
 </li>
 <li><p>内存空间初始化<br>&emsp;&emsp;内存分配完成后虚拟机需要将分配到的内存空间都初始化为零值(不包括对象头)，这一步操作保证了对象的实例字段在 Java 代码中可以不赋初始值就直接使用，程序能访问到这些字段的数据类型所对应的零值。</p>
@@ -298,7 +293,7 @@
 </li>
 </ul>
 <h2 id="对象的访问定位"><a href="#对象的访问定位" class="headerlink" title="对象的访问定位"></a>对象的访问定位</h2><ul>
-<li><p>句柄<br><img src="http://i2.tiimg.com/736325/a01ecfd5265dc581.jpg"><br>&emsp;如果使用句柄访问的话那么Java堆中将会划分出一块内存来作为句柄池，reference中存储的就是对象的句柄地址而句柄中包含了对象实例数据与类型数据各自的具体地址信息。</p>
+<li><p>句柄<br><img src="http://i2.tiimg.com/736325/a01ecfd5265dc581.jpg"><br>&emsp;&emsp;如果使用句柄访问的话那么Java堆中将会划分出一块内存来作为句柄池，reference中存储的就是对象的句柄地址而句柄中包含了对象实例数据与类型数据各自的具体地址信息。</p>
 </li>
 <li><p>直接指针<br><img src="http://i2.tiimg.com/736325/89ad7482cdbe1093.jpg"><br>&emsp;&emsp;如果使用直接指针访问reference中存储的直接就是对象地址。</p>
 </li>
@@ -330,16 +325,16 @@
 <td>本地方法栈中JNI(即一般说的Native方法)引用的对象</td>
 </tr>
 <tr>
-<td>JVM的内部引用(class对象、异常对象NullPointException，OutofMemoryError，系统类加载器)</td>
+<td>JVM的内部引用(class对象、异常对象NullPointException,OutofMemoryError,系统类加载器)</td>
 </tr>
 <tr>
 <td>所有被同步锁(synchronized关键)持有的对象</td>
 </tr>
 <tr>
-<td>JVM内部的JMXBean，JVMTI中注册的回调，本地代码缓存等</td>
+<td>JVM内部的JMXBean,JVMTI中注册的回调,本地代码缓存等</td>
 </tr>
 <tr>
-<td>VM实现中的“临时性”对象，跨代引用的对象(在使用分代模型回收只回收部分代时)</td>
+<td>VM实现中的“临时性”对象,跨代引用的对象(在使用分代模型回收只回收部分代时)</td>
 </tr>
 </tbody></table>
 <ul>
@@ -350,7 +345,7 @@
 </li>
 <li><p>软引用(SoftReference)<br>&emsp;&emsp;一些有用但是并非必需，用软引用关联的对象系统将要发生内存溢出(OuyOfMemory)之前这些对象就会被回收(如果这次回收后还是没有足够的空间，才会抛出内存溢出)。</p>
 </li>
-<li><p>弱引用(WeakReference)<br>&emsp;&emsp;一些有用(程度比软引用更低)但是并非必需、用弱引用关联的对象，只能生存到下一次垃圾回收之前，GC发生时不管内存够不够，都会被回收。</p>
+<li><p>弱引用(WeakReference)<br>&emsp;&emsp;一些有用(程度比软引用更低)但是并非必需、用弱引用关联的对象，只能生存到下一次垃圾回收之前，GC发生时不管内存够不够,都会被回收。</p>
 </li>
 <li><p>虚引用(PhantomReference)<br>&emsp;&emsp;幽灵引用、最弱（随时会被回收掉）。垃圾回收的时候收到一个通知，就是为了监控垃圾回收器是否正常工作。</p>
 </li>
@@ -359,11 +354,11 @@
 <h3 id="分配原则"><a href="#分配原则" class="headerlink" title="分配原则"></a>分配原则</h3><ul>
 <li><p>对象优先在Eden区分配<br>&emsp;&emsp;大多数情况下对象在新生代Eden区中分配，当Eden区没有足够空间分配时，虚拟机将发起一次Minor GC。</p>
 </li>
-<li><p>空间分配担保<br>&emsp;&emsp;在发生Minor GC之前虚拟机会先检查老年代最大可用的连续空间是否大于新生代所有对象总空间，如果这个条件成立那么Minor GC可以确保是安全的。如果不成立则虚拟机会查看HandlePromotionFailure设置值是否允许担保失败。如果允许那么会继续检查老年代最大可用的连续空间是否大于历次晋升到老年代对象的平均大小，如果大于将尝试着进行一次Minor GC 尽管这次Minor GC是有风险的，如果担保失败则会进行一次Full GC，如果小于或者HandlePromotionFailure设置不允许冒险，那这时也要改为进行一次Full GC。</p>
+<li><p>空间分配担保<br>&emsp;&emsp;在发生Minor GC之前虚拟机会先检查老年代最大可用的连续空间是否大于新生代所有对象总空间,如果这个条件成立那么Minor GC可以确保是安全的。如果不成立则虚拟机会查看HandlePromotionFailure设置值是否允许担保失败。如果允许那么会继续检查老年代最大可用的连续空间是否大于历次晋升到老年代对象的平均大小，如果大于将尝试着进行一次Minor GC 尽管这次Minor GC是有风险的，如果担保失败则会进行一次Full GC，如果小于或者HandlePromotionFailure设置不允许冒险，那这时也要改为进行一次Full GC。</p>
 </li>
-<li><p>大对象直接进入老年代<br>&emsp;&emsp;最典型的大对象是那种很长的字符串以及数组，这样做的目的：①避免大量内存复制。 ②避免提前进行垃圾回收，明明内存有空间进行分配。</p>
+<li><p>大对象直接进入老年代<br>&emsp;&emsp;最典型的大对象是那种很长的字符串以及数组，这样做的目的:①避免大量内存复制。 ②避免提前进行垃圾回收,明明内存有空间进行分配。</p>
 </li>
-<li><p>长期存活的对象进入老年代<br>&emsp;&emsp;如果对象在Eden出生并经过第一次Minor GC后仍然存活并且能被Survivor容纳的话，将被移动到Survivor空间中并将对象年龄设为1，对象在Survivor区中每熬过一次 Minor GC年龄就增加1，当它的年龄增加到一定程度(并发的垃圾回收器默认为15)CMS是6时，就会被晋升到老年代中。</p>
+<li><p>长期存活的对象进入老年代<br>&emsp;&emsp;如果对象在Eden出生并经过第一次Minor GC后仍然存活并且能被Survivor容纳的话，将被移动到Survivor空间中并将对象年龄设为1，对象在Survivor区中每熬过一次 Minor GC年龄就增加1,，当它的年龄增加到一定程度(并发的垃圾回收器默认为15)CMS是6时，就会被晋升到老年代中。</p>
 </li>
 <li><p>动态对象年龄判定<br>&emsp;&emsp;为了能更好地适应不同程序的内存状况，虚拟机并不是永远地要求对象的年龄必须达到了MaxTenuringThreshold才能晋升老年代，如果在Survivor空间中相同年龄所有对象大小的总和大于Survivor空间的一半，年龄大于或等于该年龄的对象就可以直接进入老年代，无须等到MaxTenuringThreshold中要求的年龄。</p>
 </li>
@@ -375,12 +370,12 @@
 <li><p>本地线程分配缓冲(TLAB)</p>
 </li>
 </ul>
-<h2 id="小结-1"><a href="#小结-1" class="headerlink" title="小结"></a>小结</h2><p>&emsp;&emsp;(1).对象创建：类加载检查–&gt;分配内存–&gt;内存初始化–&gt;设置对象头–&gt;执行构造方法。<br>&emsp;&emsp;(2).分配方式：指针碰撞和空闲列表，是根据内存的规整来确定，内存规整度取决于GC回收算法是“标记–清除”还是“标记–整理”。<br>&emsp;&emsp;(3).内存分配并发处理的两种方式：CAS+失败重试和TLAB。<br>&emsp;&emsp;(4).内存布局：对象头、实例数据和对齐填充。<br>&emsp;&emsp;(5).访问定位：句柄和直接指针（目前主要是直接指针）。<br>&emsp;&emsp;(6).是否存活：引用计数法和可达性分析法。<br>&emsp;&emsp;(7).对象引用：强引用、软引用、弱引用和虚引用。<br>&emsp;&emsp;(8).分配策略：分配原则和优化技术。</p>
+<h2 id="小结-1"><a href="#小结-1" class="headerlink" title="小结"></a>小结</h2><p>&emsp;&emsp;(1).对象创建:类加载检查–&gt;分配内存–&gt;内存初始化–&gt;设置对象头–&gt;执行构造方法。<br>&emsp;&emsp;(2).分配方式:指针碰撞和空闲列表，是根据内存的规整来确定，内存规整度取决于GC回收算法是“标记–清除”还是“标记–整理”。<br>&emsp;&emsp;(3).内存分配并发处理的两种方式:CAS+失败重试和TLAB。<br>&emsp;&emsp;(4).内存布局:对象头、实例数据和对齐填充。<br>&emsp;&emsp;(5).访问定位:句柄和直接指针（目前主要是直接指针）。<br>&emsp;&emsp;(6).是否存活:引用计数法和可达性分析法。<br>&emsp;&emsp;(7).对象引用:强引用、软引用、弱引用和虚引用。<br>&emsp;&emsp;(8).分配策略:分配原则和优化技术。</p>
 <h1 id="三、垃圾回收机制"><a href="#三、垃圾回收机制" class="headerlink" title="三、垃圾回收机制"></a>三、垃圾回收机制</h1><p>&emsp;&emsp;前面我们讲了一个对象是如何在JVM中创建并分配内存、对象的引用和判断对象是否存活，那么当一个对象不被引用了，我们该怎么从JVM中回收它呢？</p>
-<h2 id="分代回收理论"><a href="#分代回收理论" class="headerlink" title="分代回收理论"></a>分代回收理论</h2><p>&emsp;&emsp;通过调查大部分的对象都是朝生夕死并且存活越久的对象越难回收，所以JVM分为新生代和老年代。而新生代有Eden、From和To区，老年代只有Tenured区。不同区域有不同的垃圾回收算法：新生代—复制算法、老年代—标记清楚/标记整理算法。<br><img src="http://i2.tiimg.com/736325/64c17172fc4a2671.png"></p>
-<h3 id="复制算法"><a href="#复制算法" class="headerlink" title="复制算法"></a>复制算法</h3><p>&emsp;&emsp;它可以将内存分为大小相同的两块，每次使用其中的一块。当这一块的内存使用完后，就将还存活的对象复制到另一块去，然后再把使用的空间一次清理掉。这样每次的内存回收都是对内存区间的一半进行回收。<br>&emsp;&emsp;特点：①实现简单、运行高效。②内存复制、没有碎片。③利用率只有一半。<br>&emsp;&emsp;Eden区的来源：①Appel式回收。②提高空间利用率和空间分配担保。</p>
-<h3 id="标记清除"><a href="#标记清除" class="headerlink" title="标记清除"></a>标记清除</h3><p>&emsp;&emsp;算法分为“标记”和“清除”两个阶段：首先标记出所有需要回收的对象，在标记完成后统一回收所有被标记的对象。它的主要不足空间问题，标记清除之后会产生大量不连续的内存碎片。空间碎片太多可能会导致以后在程序运行过程中需要分配较大对象时，无法找到足够的连续内存而不得不提前触发另一次垃圾收集动作。<br>&emsp;&emsp;特点：①执行效率不稳定。②内存碎片导致提前GC。</p>
-<h3 id="标记整理"><a href="#标记整理" class="headerlink" title="标记整理"></a>标记整理</h3><p>&emsp;&emsp;首先标记出所有需要回收的对象，在标记完成后、后续步骤不是直接对可回收对象进行清理，而是让所有存活的对象都向一端移动，然后直接清理掉端边界以外的内存。<br>&emsp;&emsp;特点：①对象移动。②引用更新。③用户线程暂停。④没有内存碎片。</p>
+<h2 id="分代回收理论"><a href="#分代回收理论" class="headerlink" title="分代回收理论"></a>分代回收理论</h2><p>&emsp;&emsp;通过调查大部分的对象都是朝生夕死并且存活越久的对象越难回收，所以JVM分为新生代和老年代。而新生代有Eden、From和To区，老年代只有Tenured区。不同区域有不同的垃圾回收算法:新生代—复制算法、老年代—标记清楚/标记整理算法。<br><img src="http://i2.tiimg.com/736325/64c17172fc4a2671.png"></p>
+<h3 id="复制算法"><a href="#复制算法" class="headerlink" title="复制算法"></a>复制算法</h3><p>&emsp;&emsp;这样每次的内存回收都是对内存区间的一半进行回收。<br>&emsp;&emsp;特点:①实现简单、运行高效。②内存复制、没有碎片。③利用率只有一半。<br>&emsp;&emsp;Eden区的来源:①Appel式回收。②提高空间利用率和空间分配担保。</p>
+<h3 id="标记清除"><a href="#标记清除" class="headerlink" title="标记清除"></a>标记清除</h3><p>&emsp;&emsp;算法分为“标记”和“清除”两个阶段:首先标记出所有需要回收的对象，在标记完成后统一回收所有被标记的对象。它的主要不足空间问题，标记清除之后会产生大量不连续的内存碎片。空间碎片太多可能会导致以后在程序运行过程中需要分配较大对象时，无法找到足够的连续内存而不得不提前触发另一次垃圾收集动作。<br>&emsp;&emsp;特点:①执行效率不稳定。②内存碎片导致提前GC。</p>
+<h3 id="标记整理"><a href="#标记整理" class="headerlink" title="标记整理"></a>标记整理</h3><p>&emsp;&emsp;首先标记出所有需要回收的对象，在标记完成后、后续步骤不是直接对可回收对象进行清理，而是让所有存活的对象都向一端移动，然后直接清理掉端边界以外的内存。<br>&emsp;&emsp;特点:①对象移动。②引用更新。③用户线程暂停。④没有内存碎片。</p>
 <h2 id="垃圾收集器"><a href="#垃圾收集器" class="headerlink" title="垃圾收集器"></a>垃圾收集器</h2><p><img src="http://i2.tiimg.com/736325/eef8ac7996481b32.png"><br>&emsp;&emsp;在新生代中每次垃圾收集时都发现有大批对象死去、只有少量存活那就选用复制算法，只需要付出少量存活对象的复制成本就可以完成收集。而老年代中因为对象存活率高、没有额外空间对它进行分配担保，就必须使用“标记—清理”或者“标记—整理”算法来进行回收。</p>
 <p>新生代</p>
 <table>
@@ -439,9 +434,9 @@
 </tbody></table>
 <p>&emsp;&emsp;参照以上图、表可知JVM垃圾收集器是一步一步演进，从单线程到多线程;从并行(垃圾收集的多线程的同时进行)到并发(垃圾收集的多线程和应用的多线程同时进行)。</p>
 <h3 id="CMS垃圾回收器"><a href="#CMS垃圾回收器" class="headerlink" title="CMS垃圾回收器"></a>CMS垃圾回收器</h3><ul>
-<li><p>CMS垃圾回收器主要有以下五点<br>①初始标记：标记根（GCRoots）相连对象。<br>②并发标记：标记需要回收的对象。<br>③重新标记：重新标记调整过的对象。<br>④并发清理：清理已标记的对象。<br>⑤重置线程：清除垃圾线程。</p>
+<li><p>CMS垃圾回收器主要有以下五点<br>①初始标记:标记根（GCRoots）相连对象。<br>②并发标记:标记需要回收的对象。<br>③重新标记:重新标记调整过的对象。<br>④并发清理:清理已标记的对象。<br>⑤重置线程:清除垃圾线程。</p>
 </li>
-<li><p>CMS缺点<br>&emsp;&emsp;cpu敏感、浮动垃圾和内存碎片。浮动垃圾：由于CMS并发清理阶段用户线程还在运行着，伴随程序运行自然就还会有新的垃圾不断产生，这一部分垃圾出现在标记过程之后CMS无法在当次收集中处理掉它们，只好留待下一次GC时再清理掉，这一部分垃圾就称为“浮动垃圾”。<br>CMS垃圾回收过程图<br><img src="http://i2.tiimg.com/736325/28380d190c58de38.png"></p>
+<li><p>CMS缺点<br>&emsp;&emsp;cpu敏感、浮动垃圾和内存碎片。浮动垃圾:由于CMS并发清理阶段用户线程还在运行着，伴随程序运行自然就还会有新的垃圾不断产生，这一部分垃圾出现在标记过程之后CMS无法在当次收集中处理掉它们，只好留待下一次GC时再清理掉，这一部分垃圾就称为“浮动垃圾”。<br>CMS垃圾回收过程图<br><img src="http://i2.tiimg.com/736325/28380d190c58de38.png"></p>
 </li>
 </ul>
 <h3 id="G1垃圾收集器-Garbage-First"><a href="#G1垃圾收集器-Garbage-First" class="headerlink" title="G1垃圾收集器(Garbage First)"></a>G1垃圾收集器(Garbage First)</h3><p>&emsp;&emsp;①追求停顿时间。<br>&emsp;&emsp;②Region区。<br>&emsp;&emsp;③筛选回收。<br>&emsp;&emsp;④可预测停顿。<br>&emsp;&emsp;⑤复制和标记整理。<br>G1垃圾回收过程图<br><img src="http://i2.tiimg.com/736325/2c4fcfd7f4d37cb6.png"> <img src="http://i2.tiimg.com/736325/53c6af9586ec3446.png"></p>
