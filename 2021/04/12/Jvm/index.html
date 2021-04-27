@@ -163,20 +163,20 @@
   <!-- Article START -->
   <article class="post-article">
     <section class="markdown-content"><h1 id="一、JAVA代码如何在操作系统中运行"><a href="#一、JAVA代码如何在操作系统中运行" class="headerlink" title="一、JAVA代码如何在操作系统中运行"></a>一、JAVA代码如何在操作系统中运行</h1><p>&emsp;&emsp;原生Android Application可以由Kotlin或Java去编写，然后由编译器打包成apk运行在Android平台上，其Kotlin实现是基于Java语言，作为Android开发者，我们不仅需要知道怎么去写Java代码，也需要了解代码是如何在操作系统中执行的。</p>
-<h2 id="代码执行流程图"><a href="#代码执行流程图" class="headerlink" title="代码执行流程图"></a>代码执行流程图</h2><p><img src="http://i2.tiimg.com/736325/e9cbf191badd5bd9.png"><br>&emsp;&emsp;可以看出java代码运行在操作平台上需经历三个阶段：第一阶段源代码时期 .java文件由javac编译器生成 .class字节码文件，然后由JVM(从跨平台到跨语言)，加载进内存中并翻译，最后由操作系统调用已编译的类函数。如上图可知第二、三阶段是发生在JVM（Java Virtual Machine）中，接下来需要分析第一阶段和JVM到底做了什么？</p>
-<h2 id="Java-源代码编译阶段"><a href="#Java-源代码编译阶段" class="headerlink" title="Java 源代码编译阶段"></a>Java 源代码编译阶段</h2><p>源文件编译执行流程图如下所示<br><img src="http://i2.tiimg.com/736325/169995cbc436e26a.png"><br>&emsp;&emsp;此过程由javac编译器将.java文件变成.class文件，它将进行三步处理：分析和输入到符号表 、注解处理 和语义分析和生成 class 文件。由此一个对象的class文件就生成了，那么一个对象的class文件内容是怎么样的呢？</p>
+<h2 id="代码执行流程图"><a href="#代码执行流程图" class="headerlink" title="代码执行流程图"></a>代码执行流程图</h2><p><img src="https://raw.githubusercontent.com/MilkBeeno/MilkBeeno.github.io.picture/master/2021/jvm_1.png"><br>&emsp;&emsp;可以看出java代码运行在操作平台上需经历三个阶段：第一阶段源代码时期 .java文件由javac编译器生成 .class字节码文件，然后由JVM(从跨平台到跨语言)，加载进内存中并翻译，最后由操作系统调用已编译的类函数。如上图可知第二、三阶段是发生在JVM（Java Virtual Machine）中，接下来需要分析第一阶段和JVM到底做了什么？</p>
+<h2 id="Java-源代码编译阶段"><a href="#Java-源代码编译阶段" class="headerlink" title="Java 源代码编译阶段"></a>Java 源代码编译阶段</h2><p>源文件编译执行流程图如下所示<br><img src="https://raw.githubusercontent.com/MilkBeeno/MilkBeeno.github.io.picture/master/2021/jvm_2.png"><br>&emsp;&emsp;此过程由javac编译器将.java文件变成.class文件，它将进行三步处理：分析和输入到符号表 、注解处理 和语义分析和生成 class 文件。由此一个对象的class文件就生成了，那么一个对象的class文件内容是怎么样的呢？</p>
 <h3 id="对象class文件结构"><a href="#对象class文件结构" class="headerlink" title="对象class文件结构"></a>对象class文件结构</h3><p>一个对象编译后的class文件主要有以下三点组成</p>
 <ul>
 <li>结构信息<br>&emsp;包括class文件格式版本号及各部分的数量与大小的信息。</li>
 <li>元数据<br>&emsp;对应于Java源码中声明与常量的信息。包含类,继承的超类,实现的接口的声明信息,域与方法声明信息和常量池。</li>
 <li>方法信息<br>&emsp;对应Java源码中语句和表达式对应的信息。包含字节码,异常处理器表,求值栈与局部变量区大小,求值栈的类型记录,调试符号信息。</li>
 </ul>
-<p>&emsp;&emsp;以上的描述可能不是很清晰，我们可以用010editor编辑器来直观的了解class文件到底是怎样的。首先创建一个类、编译生成一个class文件，打开后我们可以看到如下图所示<br><img src="http://i2.tiimg.com/736325/b42c93a5da97fee2.png"><br>&emsp;&emsp;对于每一个对象生成的class文件都有对应于一个如下图所示的ClassFile 结构体<br><img src="http://i2.tiimg.com/736325/ceb97f9fb23d956a.png"><br>&emsp;&emsp;也可以使用反编译查看class文件内容：javap -c 类名称，反编译后的格式、文字含义等等。</p>
+<p>&emsp;&emsp;以上的描述可能不是很清晰，我们可以用010editor编辑器来直观的了解class文件到底是怎样的。首先创建一个类、编译生成一个class文件，打开后我们可以看到如下图所示<br><img src="http://i2.tiimg.com/736325/b42c93a5da97fee2.png"><br>&emsp;&emsp;对于每一个对象生成的class文件都有对应于一个如下图所示的ClassFile 结构体<br><img src="https://raw.githubusercontent.com/MilkBeeno/MilkBeeno.github.io.picture/master/2021/jvm_3.png"><br>&emsp;&emsp;也可以使用反编译查看class文件内容：javap -c 类名称，反编译后的格式、文字含义等等。</p>
 <blockquote>
 <p>class反编译文件格式: <a target="_blank" rel="noopener" href="https://juejin.im/post/5c0932cee51d45090a1da07e">https://juejin.im/post/5c0932cee51d45090a1da07e</a></p>
 </blockquote>
 <h2 id="JVM-工作流程"><a href="#JVM-工作流程" class="headerlink" title="JVM 工作流程"></a>JVM 工作流程</h2><p>&emsp;&emsp;上面已经阐述了java文件是如何被编译成字节码文件的，但是字节码文件并不能被机器识别，中间需要JVM作为代理，将class文件装载进内存并翻译成机器能识别的机器码，此时操作系统才能调用我们的java代码。接下来分析JVM如何将class文件加载进内存和如何进行翻译的。</p>
-<h3 id="JVM-运行时内存分配图"><a href="#JVM-运行时内存分配图" class="headerlink" title="JVM 运行时内存分配图"></a>JVM 运行时内存分配图</h3><p><img src="http://i2.tiimg.com/736325/547fec83f7fc9cf6.png"><br>&emsp;&emsp;如上图所示，JVM首先由ClassLoader类加载器将.class文件加载进内存，然后在JVM运行时数据区进行翻译。</p>
+<h3 id="JVM-运行时内存分配图"><a href="#JVM-运行时内存分配图" class="headerlink" title="JVM 运行时内存分配图"></a>JVM 运行时内存分配图</h3><p><img src="https://raw.githubusercontent.com/MilkBeeno/MilkBeeno.github.io.picture/master/2021/jvm_4.png"><br>&emsp;&emsp;如上图所示，JVM首先由ClassLoader类加载器将.class文件加载进内存，然后在JVM运行时数据区进行翻译。</p>
 <h3 id="JVM-类加载机制"><a href="#JVM-类加载机制" class="headerlink" title="JVM 类加载机制"></a>JVM 类加载机制</h3><p>JVM将.class文件加载进内存大致会经历两个步骤</p>
 <ul>
 <li><p>加载</p>
@@ -194,7 +194,7 @@
 <li>符号引用验证<br>&emsp;发生在虚拟机将符号引用转化为直接引用的时候;如:校验符号引用中通过字符串描述的全限定名是否能找到对应的类。</li>
 </ul>
 </li>
-<li><p>类加载过程如图所示<br><img src="http://i2.tiimg.com/736325/4fafafe5796c2b99.png"></p>
+<li><p>类加载过程如图所示<br><img src="https://raw.githubusercontent.com/MilkBeeno/MilkBeeno.github.io.picture/master/2021/jvm_5.png"></p>
 <ul>
 <li>Bootstrap ClassLoader:负责加载JAVA_HOME中jre/lib/rt.jar里所有的 class，由C++实现不是ClassLoader子类。</li>
 <li>Extension ClassLoader:负责加载Java平台中扩展功能的一些jar包、包括JAVA_HOME中jre/lib/*.jar或-Djava.ext.dirs指定目录下的jar包。</li>
@@ -204,7 +204,7 @@
 <p>&emsp;&emsp;加载过程中会先检查类是否被已加载，检查顺序是自底向上，从Custom ClassLoader到BootStrap ClassLoader 逐层检查，只要某个Classloader已加载就视为已加载此类，保证此类只所有ClassLoader加载一次，而加载的顺序是自顶向下，也就是由上层来逐层尝试加载此类。</p>
 </li>
 </ul>
-<h3 id="JVM-运行时数据区内存分配"><a href="#JVM-运行时数据区内存分配" class="headerlink" title="JVM 运行时数据区内存分配"></a>JVM 运行时数据区内存分配</h3><p>数据区内存图<br><img src="http://i2.tiimg.com/736325/4abc1acb5d0dc2be.png"><br>&emsp;&emsp;如图所示，JVM运行时数据区内存主要分为：线程私有类中包含虚拟机栈、本地方法栈和程序计数器，线程共享类包含了方法区和堆。</p>
+<h3 id="JVM-运行时数据区内存分配"><a href="#JVM-运行时数据区内存分配" class="headerlink" title="JVM 运行时数据区内存分配"></a>JVM 运行时数据区内存分配</h3><p>数据区内存图<br><img src="https://raw.githubusercontent.com/MilkBeeno/MilkBeeno.github.io.picture/master/2021/jvm_6.png"><br>&emsp;&emsp;如图所示，JVM运行时数据区内存主要分为：线程私有类中包含虚拟机栈、本地方法栈和程序计数器，线程共享类包含了方法区和堆。</p>
 <ul>
 <li><p>程序计数器<br>&emsp;&emsp;字节码解释器工作时通过改变这个计数器的值来选取下一条需要执行的字节码指令，分支、循环、跳转、异常处理、线程恢复等功能都需要依赖这个计数器来完。通过反汇编可以得到一个Class对象的信息，如下图所示 Code标识方法内部代码执行的行号也是偏移量，而程序计数器就是记录Code的地址。程序计数器存在的作用：操作系统分配任务时使用时间片轮转法，当执行代码被挂起后，它可以记录代码执行的位置，以便下次轮转分配到内存时，继续执行上次中断任务。程序计数器是JVM内存区域唯一不会OOM的区域。<br><img src="http://i1.fuimg.com/736325/854284581101c0dd.png"></p>
 </li>
