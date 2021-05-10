@@ -171,7 +171,7 @@
 <li>元数据<br>&emsp;对应于Java源码中声明与常量的信息。包含类,继承的超类,实现的接口的声明信息,域与方法声明信息和常量池。</li>
 <li>方法信息<br>&emsp;对应Java源码中语句和表达式对应的信息。包含字节码,异常处理器表,求值栈与局部变量区大小,求值栈的类型记录,调试符号信息。</li>
 </ul>
-<p>&emsp;&emsp;以上的描述可能不是很清晰，我们可以用010editor编辑器来直观的了解class文件到底是怎样的。首先创建一个类、编译生成一个class文件，打开后我们可以看到如下图所示<br><img src="http://i2.tiimg.com/736325/b42c93a5da97fee2.png"><br>&emsp;&emsp;对于每一个对象生成的class文件都有对应于一个如下图所示的ClassFile 结构体<br><img src="https://raw.githubusercontent.com/MilkBeeno/MilkBeeno.github.io.picture/master/2021/jvm_3.png"><br>&emsp;&emsp;也可以使用反编译查看class文件内容：javap -c 类名称，反编译后的格式、文字含义等等。</p>
+<p>&emsp;&emsp;以上的描述可能不是很清晰，我们可以用010editor编辑器来直观的了解class文件到底是怎样的。首先创建一个类、编译生成一个class文件，打开后我们可以看到如下图所示<br><img src="https://raw.githubusercontent.com/MilkBeeno/MilkBeeno.github.io.picture/master/2021/jvm_23.png"><br>&emsp;&emsp;对于每一个对象生成的class文件都有对应于一个如下图所示的ClassFile 结构体<br><img src="https://raw.githubusercontent.com/MilkBeeno/MilkBeeno.github.io.picture/master/2021/jvm_3.png"><br>&emsp;&emsp;也可以使用反编译查看class文件内容：javap -c 类名称，反编译后的格式、文字含义等等。</p>
 <blockquote>
 <p>class反编译文件格式: <a target="_blank" rel="noopener" href="https://juejin.im/post/5c0932cee51d45090a1da07e">https://juejin.im/post/5c0932cee51d45090a1da07e</a></p>
 </blockquote>
